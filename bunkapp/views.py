@@ -1,5 +1,11 @@
 from django.shortcuts import render
 from django.template import RequestContext
+from django.views.generic import TemplateView
+
+class LandingView(TemplateView):
+
+    template_name = "landing.html"
+
 
 def dashboard(request):
 	if request.method=="POST":
