@@ -1,0 +1,82 @@
+{% extends 'employee_base.html' %}
+{% block content %}
+<div id="page-wrapper">
+
+            <div class="container-fluid">
+
+<!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Welcome <small>{{request.user}}</small>
+                        </h1>
+                        
+                    </div>
+                </div>
+                <!-- /.row -->
+		{% if messages %}
+		    <ul class="messagelist">{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
+    		{% endif %}
+
+		<div class="row">
+                    <div class="col-lg-12">
+		     
+
+
+
+
+<div class="col-lg-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>User Entries</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Machine</th>
+                                                <th>Fuel type</th>
+                                                <th>Start Reading</th>
+                                                <th>End Reading</th>
+						<th>Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+					    {% for entry in entries %}
+                                            <tr>
+                                                <td>{{ entry.machine }}</td>
+                                                <td>{{ entry.fuel_type }}</td>
+                                                <td>{{ entry.start_reading }}</td>
+                                                <td>{{ entry.end_reading }}</td>
+						<td>{{ entry.price }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		    </div>
+		</div>
+
+	    </div>
+</div>
+
+{% endblock %}
