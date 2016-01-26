@@ -42,17 +42,39 @@
                     <div class="col-md-8 col-md-offset-2">
                         <h1 class="brand-heading">Petro Care</h1>
                         <p class="intro-text">A PERFECT APP FOR MANAGING BUNKS<br>Created by HandsOn</p>
-                        <a href="/accounts/login" class="btn btn-circle page-scroll">
-                            <i class="fa fa-angle-double-down animated"></i>
-                        </a>
+                        <button href="" data-toggle="modal" data-target="#loginModal" class="btn btn-circle page-scroll">
+                            <i class="glyphicon glyphicon-log-in animated"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-
+    <div class="modal fade" id="loginModal" role="dialog">
+    <div class="modal-dialog">
     
-
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'login' %}">
+          {% csrf_token %}
+          <input type="text" id="id_username" name="username"/>
+          <input type="password" id="id_password" name="password"/>
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <input type="submit" value="Login" />
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
     <!-- jQuery -->
     <script src="{% static 'js/jquery.js' %}"></script>
 
