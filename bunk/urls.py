@@ -19,5 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('registration.backends.simple.urls')),
-    url(r'^',include('bunkapp.urls'))
+    url(r'^',include('bunkapp.urls')),
+    url(r'^employee/',include('petroapp.urls')),
 ]

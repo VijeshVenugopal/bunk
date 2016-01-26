@@ -6,5 +6,5 @@ urlpatterns = [
     url(r'^$',LandingView.as_view()),
     url(r'^dashboard/$',dashboard,name='dashboard'),
     url(r'^login/$',LoginView.as_view(),name='login'),
-    #url(r'^logout/$',LogoutView.as_view(),name='logout'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',{'next_page': '/accounts/login'})
 ]

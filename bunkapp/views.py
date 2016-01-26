@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import View
 from django.http import HttpResponse,HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 class LoginView(View):
 	def post(self, *args, **kwargs):
@@ -14,14 +15,12 @@ class LoginView(View):
 			if user.is_active:
 				login(self.request, user)
 				#redirect_url = '/dashboard'
-				return HttpResponseRedirect("/dashboard/")
+				if user.is_superuser:
+				    return HttpResponseRedirect("/dashboard/")
+				else:
+				    return HttpResponseRedirect(reverse("entry-list"))
 			return HttpResponse("this is error")
 		return HttpResponse("eeeee")
-"""
-class LogoutView(View)
-    logout(request)
-    return HttpResponseRedirect("/")
-"""
 
 
 class LandingView(TemplateView):

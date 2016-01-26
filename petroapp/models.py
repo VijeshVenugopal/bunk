@@ -1,6 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class PetroBunk(models.Model):
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = "PetroBunk"
+	verbose_name_plural = "PetroBunks"
+
+    def __unicode__(self):
+        return self.name
 
 class Machine(models.Model):
     """
@@ -23,7 +32,7 @@ class DailyInputs(models.Model):
         ('red', 'RED'),
         ('green', 'GREEN'),    
 	)
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User, related_name='user_set')
     machine = models.ForeignKey(Machine, related_name="machines")
     start_reading = models.DecimalField(max_digits=5, decimal_places=2)
     end_reading = models.DecimalField(max_digits=5, decimal_places=2)
@@ -36,7 +45,7 @@ class DailyInputs(models.Model):
         verbose_name_plural = "Daily Details"
 
     def __unicode__(self):
-        return self.user
+        return str(self.user)
 
 class FuelAvailability(models.Model):
     """
