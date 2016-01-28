@@ -35,7 +35,6 @@ class UserEntryView(View):
 	    entry.user = self.request.user
             entry.save()
 	    messages.success(self.request, "entry added successfully")
-	    entries = DailyInputs.objects.filter(date__startswith=date.today())	
-            return render(self.request,self.template_name,{'form':EmployeeEntryForm(), 'entries':entries})
+	    return HttpResponseRedirect(reverse('entry-list'))
 
 
