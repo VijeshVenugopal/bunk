@@ -243,3 +243,7 @@ ul.alert-dropdown {
     border-radius: 9px;
     width: 268px;
 }
+.employee_wrapper{
+    width:90%!important;
+    margin-left: 5%;
+}

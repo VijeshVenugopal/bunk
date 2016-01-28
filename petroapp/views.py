@@ -13,8 +13,7 @@ class EntryListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(EntryListView, self).get_context_data(**kwargs)
-	context['entries'] = DailyInputs.objects.filter(date__startswith=date.today())	
-	print context
+	context['entries'] = DailyInputs.objects.all()	
 	return context
 
 
