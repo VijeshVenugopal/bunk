@@ -35,8 +35,7 @@ class UserEntryView(View):
 	    entry.user = self.request.user
             entry.save()
 	    messages.success(self.request, "entry added successfully")
-	    entries = DailyInputs.objects.filter(date__startswith=date.today())	
-            return render(self.request,self.template_name,{'form':EmployeeEntryForm(), 'entries':entries})
+	    return HttpResponseRedirect(reverse('entry-list'))
 
     def get_context_data(self, **kwargs):
         context = super(UserEntryView, self).get_context_data(**kwargs)
