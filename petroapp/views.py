@@ -37,4 +37,11 @@ class UserEntryView(View):
 	    messages.success(self.request, "entry added successfully")
 	    return HttpResponseRedirect(reverse('entry-list'))
 
+    def get_context_data(self, **kwargs):
+        context = super(UserEntryView, self).get_context_data(**kwargs)
+        return context
 
+class AttendanceCreateView(CreateView):
+    model = AttendanceRecord
+    form_class = AttendanceRecordForm
+    template_name = "employee/employee_attendance.html"
