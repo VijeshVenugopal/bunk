@@ -8,3 +8,8 @@ class EmployeeEntryForm(ModelForm):
     class Meta:
         model = DailyInputs
         exclude = ('user', 'date')
+
+class AttendanceRecordForm(ModelForm):
+	class Meta:
+		model = AttendanceRecord
+		exclude = ('user','date','checkin_time','checkout_time')

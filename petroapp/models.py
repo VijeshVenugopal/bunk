@@ -66,3 +66,16 @@ class FuelAvailability(models.Model):
 
     def __unicode__(self):
         return str(self.litre)
+
+class AttendanceRecord(models.Model):
+    user = models.ForeignKey(User)
+    status = models.BooleanField(default=True)
+    date = models.DateField(null=True,blank=True)
+    checkin_time = models.DateTimeField(null=True,blank=True)
+    checkout_time = models.DateTimeField(null=True,blank=True)
+    machine = models.ForeignKey(Machine,null=True)
+    start_reading = models.DecimalField(max_digits=7, decimal_places=2,null=True)
+    end_reading = models.DecimalField(max_digits=5, decimal_places=2,null=True)
+
+    def __unicode__(self):
+        return str(self.user)
