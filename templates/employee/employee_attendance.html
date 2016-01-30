@@ -55,11 +55,14 @@
                     		<form method="POST" action="">
 							{% csrf_token %}
 							{{form.as_p}}
-
 							<!-- {% for field in form %}
 								<div class="row" style="padding:30px">{{field.label}}</div>
 							{% endfor %} -->
-							<input type="submit" value="Checkin" class="btn btn-success submit">
+							{% if alreadyin == 'alreadyin' %}
+								<input type="submit" value="CheckOut" class="btn btn-success submit">
+							{% else %}
+								<input type="submit" value="CheckIn" class="btn btn-success submit">
+							{% endif %}
 							</form>
 						</div>
 						<div class="co-md-2"></div>

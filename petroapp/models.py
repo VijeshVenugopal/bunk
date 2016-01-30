@@ -15,8 +15,12 @@ class Machine(models.Model):
     """
     Model for machines.
     """
+    CHOICES = (
+        ('red', 'RED'),
+        ('green', 'GREEN'),    
+    )
     name = models.CharField(max_length=50)
-
+    fuel = models.CharField(max_length=5, choices=CHOICES)
     class Meta:
         verbose_name = "Machine"
 	verbose_name_plural = "Machines"
@@ -76,6 +80,6 @@ class AttendanceRecord(models.Model):
     machine = models.ForeignKey(Machine,null=True)
     start_reading = models.DecimalField(max_digits=7, decimal_places=2,null=True)
     end_reading = models.DecimalField(max_digits=5, decimal_places=2,null=True)
-
+    collection = models.DecimalField(max_digits=9, decimal_places=2,null=True,blank=True)
     def __unicode__(self):
         return str(self.user)

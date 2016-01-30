@@ -11,10 +11,14 @@
             <div class="col-lg-12">
                 <h1 class="page-header">
                     Welcome <small>{{request.user}}</small>
-                    {% if status == 'in' %}
-                        <a href="{% url 'attendance_create' %}" class="btn btn-primary" style="float:right">CheckOut</a>
-                    {% else %}
-                        <a href="{% url 'attendance_create' %}" class="btn btn-primary" style="float:right">CheckIn</a>
+                    {% if getout == 'True' %}
+                        <button class="btn btn-primary" style="float:right">Checked Out</button>
+                    {% else %}    
+                        {% if status == 'in' %}
+                            <a href="{% url 'attendence-close' emp_status.id %}" class="btn btn-primary" style="float:right">CheckOut</a>
+                        {% else %}
+                            <a href="{% url 'attendance_create' %}" class="btn btn-primary" style="float:right">CheckIn</a>
+                        {% endif %}
                     {% endif %}
                 </h1>
             </div>
@@ -49,14 +53,14 @@
                                     <tbody>
 					                {% for entry in entries %}
                                         <tr>
-                                            <td>Date</td>
+                                            <td>{{entry.date}}</td>
                                             <td>{{ entry.machine }}</td>
-                                            <td>{{ entry.fuel_type }}</td>
+                                            <td>{{ entry.machine.fuel }}</td>
                                             <td>{{ entry.start_reading }}</td>
                                             <td>{{ entry.end_reading }}</td>
-						                    <td>{{ entry.price }}</td>
-                                            <td>In Time</td>
-                                            <td>Out Time</td>
+						                    <td>{{ entry.collection }}</td>
+                                            <td>{{ entry.checkin_time }}</td>
+                                            <td>{{ entry.checkout_time }}</td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
