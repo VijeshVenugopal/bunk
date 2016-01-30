@@ -11,7 +11,11 @@
             <div class="col-lg-12">
                 <h1 class="page-header">
                     Welcome <small>{{request.user}}</small>
-                    <a href="{% url 'attendance_create' %}" class="btn btn-primary" style="float:right">CheckIn</a>
+                    {% if status == 'in' %}
+                        <a href="{% url 'attendance_create' %}" class="btn btn-primary" style="float:right">CheckOut</a>
+                    {% else %}
+                        <a href="{% url 'attendance_create' %}" class="btn btn-primary" style="float:right">CheckIn</a>
+                    {% endif %}
                 </h1>
             </div>
         </div>

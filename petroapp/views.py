@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 
 from petroapp.forms import *
 
@@ -15,10 +16,19 @@ class EntryListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(EntryListView, self).get_context_data(**kwargs)
-	context['entries'] = DailyInputs.objects.all()	
-	return context
+        try:
+            emp_status = AttendanceRecord.objects.get(date=date.today())
+            if emp_status.status == True:
+                context['status'] = 'in'
+            else:
+                context['status'] = 'out'
+        except:
+            context['status'] = 'out'
+        context['entries'] = AttendanceRecord.objects.all()
+        return context
 
 
+"""
 class UserEntryView(View):
     template_name = "employee/employee_entry.html"   
 
@@ -40,8 +50,18 @@ class UserEntryView(View):
     def get_context_data(self, **kwargs):
         context = super(UserEntryView, self).get_context_data(**kwargs)
         return context
+"""
 
 class AttendanceCreateView(CreateView):
     model = AttendanceRecord
     form_class = AttendanceRecordForm
     template_name = "employee/employee_attendance.html"
+
+    def form_valid(self,form):
+        attendance = form.save(commit=False)
+        attendance.user = self.request.user
+        attendance.date = date.today()
+        attendance.status = True
+        attendance.checkin_time = timezone.now()
+        attendance.save()
+        return HttpResponseRedirect(reverse("entry-list"))

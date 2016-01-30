@@ -34,7 +34,11 @@
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+    <div id="preloader">
+      <div id="status">&nbsp;</div>
+    </div>
 
+    
     <header class="intro">
         <div class="intro-body">
             <div class="container">
@@ -87,6 +91,15 @@
     <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
 
     <!-- Custom Theme JavaScript -->
+    <script type="text/javascript">
+        // makes sure the whole site is loaded
+    jQuery(window).load(function() {
+        // will first fade out the loading animation
+    //jQuery("#status").fadeOut();
+        // will fade out the whole DIV that covers the website.
+    jQuery("#preloader").delay(1000).fadeOut("slow");
+    })
+    </script>
 
 </body>
 

@@ -12,4 +12,9 @@ class EmployeeEntryForm(ModelForm):
 class AttendanceRecordForm(ModelForm):
 	class Meta:
 		model = AttendanceRecord
-		exclude = ('user','date','checkin_time','checkout_time')
+		exclude = ('user','date','checkin_time','checkout_time','status')
+	def __init__(self, *args, **kwargs):
+		super(AttendanceRecordForm, self).__init__(*args, **kwargs)
+		self.fields['machine'].widget.attrs.update({'class':'form-control'})
+		self.fields['start_reading'].widget.attrs.update({'class':'form-control'})
+		self.fields['end_reading'].widget.attrs.update({'class':'form-control'})

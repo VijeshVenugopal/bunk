@@ -69,7 +69,7 @@ class FuelAvailability(models.Model):
 
 class AttendanceRecord(models.Model):
     user = models.ForeignKey(User)
-    status = models.BooleanField(default=True)
+    status = models.BooleanField(default=False)
     date = models.DateField(null=True,blank=True)
     checkin_time = models.DateTimeField(null=True,blank=True)
     checkout_time = models.DateTimeField(null=True,blank=True)
