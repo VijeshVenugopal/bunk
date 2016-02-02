@@ -59,6 +59,7 @@ class FuelAvailability(models.Model):
         ('red', 'RED'),
         ('green', 'GREEN'),    
 	)
+    petro_bunk = models.ForeignKey(PetroBunk, related_name="bunks")
     machine_fuel = models.ForeignKey(Machine, related_name="machine_fuel")
     litre = models.PositiveIntegerField()
     date = models.DateTimeField(auto_now_add=True)
