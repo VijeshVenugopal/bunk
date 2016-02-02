@@ -18,6 +18,15 @@
                     </div>
                 </div>
                 <!-- /.row -->
+
+                <div class="row">
+          
+          	     {{form.as_p}}
+                </div>
+                <!-- /.row -->
+
+
+
             </div>
             <!-- /.container-fluid -->
 

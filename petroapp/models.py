@@ -84,3 +84,24 @@ class AttendanceRecord(models.Model):
     collection = models.DecimalField(max_digits=9, decimal_places=2,null=True,blank=True)
     def __unicode__(self):
         return str(self.user)
+
+class FuelRecords(models.Model):
+    """
+       Models for storing fule records.
+    """
+    CHOICES = (
+        ('red', 'RED'),
+        ('green', 'GREEN'),    
+	)
+    fu_type = models.CharField(max_length=5, choices=CHOICES)
+    litre = models.PositiveIntegerField()
+    description = models.TextField(null=True, blank=True)
+    veh_num = models.CharField(max_length=50, null=True, blank=True)
+    added_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Fuel Record"
+        verbose_name_plural = "Fuel Records"
+
+    def __unicode__(self):
+        return self.description

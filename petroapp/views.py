@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.utils import timezone
+from django.views.generic.base import TemplateView
+from django.db.models import Sum
 
 from petroapp.forms import *
 
@@ -88,3 +90,41 @@ class AttendenceClose(UpdateView):
         if emp_status.status == True:
             context['alreadyin'] = 'alreadyin'
         return context
+
+class PetroAdminListView(TemplateView):
+    template_name = "petroadmin/petro-list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(PetroAdminListView, self).get_context_data(**kwargs)
+	context['redentries'] = FuelRecords.objects.filter(fu_type="red").aggregate(Sum('litre'))
+	context['greenentries'] = FuelRecords.objects.filter(fu_type="green").aggregate(Sum('litre'))
+	return context
+
+class PetroFillView(CreateView):
+    model = FuelRecords
+    form_class = PetroFillForm
+    template_name = "petroadmin/petro-fill.html"
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+	obj.added_time = timezone.now()
+	obj.save()
+        return HttpResponseRedirect(reverse('petroadmin-list'))
+
+class PetroUpdateView(UpdateView):
+    model = FuelRecords
+    form_class = PetroFillForm
+    template_name = "petroadmin/petro-fill.html"
+
+    def get(self, request, *args, **kwargs):
+        self.object = FuelRecords.objects.get(id=self.kwargs['pk'])
+	form_class = self.get_form_class()
+	form = self.get_form(form_class)
+	context = self.get_context_data(object=self.object, form=form)
+	return self.render_to_response(context)
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+	obj.added_time = timezone.now()
+	obj.save()
+	return HttpResponseRedirect(reverse('petroadmin-list'))

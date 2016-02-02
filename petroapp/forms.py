@@ -26,3 +26,14 @@ class AttendanceRecordCloseForm(ModelForm):
 		super(AttendanceRecordCloseForm, self).__init__(*args, **kwargs)
 		self.fields['end_reading'].widget.attrs.update({'class':'form-control'})
 		self.fields['collection'].widget.attrs.update({'class':'form-control'})
+
+class PetroFillForm(ModelForm):
+	class Meta:
+		model = FuelRecords
+		fields = ('fu_type', 'litre', 'description', 'veh_num')
+
+		def __init__(self, *args, **kwargs):
+			super(PetroFillForm, self).__init__(*args, **kwargs)
+			self.fields['fu_type'].widget.attrs['class'] = 'form-control'
+			self.fields['litre'].widget.attrs['class'] = 'form-control'
+			self.fields['description'].widget.attrs['class'] = 'form-control'

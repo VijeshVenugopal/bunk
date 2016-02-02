@@ -18,6 +18,17 @@
                     </div>
                 </div>
                 <!-- /.row -->
+
+                <div class="row">
+                <form method="post" action=".">{% csrf_token %}
+          	     {{form.as_p}}
+                 <input type="submit" value="Submit" class="btn btn-success submit">
+                </form>
+                </div>
+                <!-- /.row -->
+
+
+
             </div>
             <!-- /.container-fluid -->
 
