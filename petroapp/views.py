@@ -7,8 +7,15 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.utils import timezone
+from django.contrib.auth.models import User
+from registration.backends.simple.views import RegistrationView
 
 from petroapp.forms import *
+
+
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, request):
+        return "/employees"
 
 class EntryListView(ListView):
     model = DailyInputs
@@ -88,3 +95,13 @@ class AttendenceClose(UpdateView):
         if emp_status.status == True:
             context['alreadyin'] = 'alreadyin'
         return context
+
+class EmployeesListView(ListView):
+    model = User
+    template_name = "admin/employees_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(EmployeesListView, self).get_context_data(**kwargs)
+        context['employees'] = User.objects.all().exclude(is_superuser=True)
+        return context
+
