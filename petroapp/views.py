@@ -9,8 +9,15 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.views.generic.base import TemplateView
 from django.db.models import Sum
+from django.contrib.auth.models import User
+from registration.backends.simple.views import RegistrationView
 
 from petroapp.forms import *
+
+
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, request):
+        return "/employees"
 
 class EntryListView(ListView):
     model = DailyInputs
@@ -128,3 +135,14 @@ class PetroUpdateView(UpdateView):
 	obj.added_time = timezone.now()
 	obj.save()
 	return HttpResponseRedirect(reverse('petroadmin-list'))
+
+class EmployeesListView(ListView):
+    model = User
+    template_name = "admin/employees_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(EmployeesListView, self).get_context_data(**kwargs)
+        context['employees'] = User.objects.all().exclude(is_superuser=True)
+        return context
+
+

@@ -247,3 +247,19 @@ ul.alert-dropdown {
     width:90%!important;
     margin-left: 5%;
 }
+#subBtn{
+    margin-left: 18%;
+}
+.errorlist{
+    color:red;
+}
+#id_username,#id_password,#id_email,#id_password1,#id_password2{
+    border-color: #1a1a1a;
+    border-radius: 5px;
+    height:30px;
+    width:50%;
+
+}
+#subBtn{
+    margin-top: 20px
+}
