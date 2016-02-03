@@ -1,4 +1,5 @@
-from datetime import date
+from datetime import date, datetime
+from datetime import timedelta
 from django.shortcuts import render
 from django.views.generic import View
 from django.views.generic import CreateView, ListView,UpdateView
@@ -144,5 +145,24 @@ class EmployeesListView(ListView):
         context = super(EmployeesListView, self).get_context_data(**kwargs)
         context['employees'] = User.objects.all().exclude(is_superuser=True)
         return context
+
+class PetroRedListView(ListView):
+    model = FuelRecords
+    template_name = "petroadmin/petrored-list.html"
+
+    def get_context_data(self, *args, **kwargs):
+	context = super(PetroRedListView, self).get_context_data(**kwargs)
+	context['redarrivals'] = FuelRecords.objects.filter(added_time__lte=datetime.now(), fu_type="red")[:10]
+	return context
+
+
+class PetroGreenListView(ListView):
+    model = FuelRecords
+    template_name = "petroadmin/petrogreen-list.html"
+
+    def get_context_data(self, *args, **kwargs):
+	context = super(PetroGreenListView, self).get_context_data(**kwargs)
+	context['greenarrivals'] = FuelRecords.objects.filter(added_time__lte=datetime.now(), fu_type="green")[:10]
+	return context
 
 
