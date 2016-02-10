@@ -28,7 +28,6 @@ class LandingView(TemplateView):
     template_name = "landing.html"
 
 def dashboard(request):
-	print request.user
 	return  render(request, 'dashboard.html',
            context_instance=RequestContext(request))
 

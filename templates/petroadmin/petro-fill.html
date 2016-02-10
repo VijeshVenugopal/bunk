@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+<style type="text/css">
+    .datetimepicker{
+        top:292px!important;
+    }
+</style>
 <div id="page-wrapper">
 
             <div class="container-fluid">
@@ -12,19 +17,27 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Dashboard
+                                <i class="fa fa-dashboard"></i> Fill Records
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
 
-                <div class="row">
+                
                 <form method="post" action=".">{% csrf_token %}
-          	     {{form.as_p}}
+                <div class="row">
+          	     <div class="col-md-12">
+                 {% for field in form %}
+                 
+                     <div class="col-md-6"  style="padding:10px">{{field.label}}{{field}}</div>
+                 
+                 {% endfor %}
+                 </div>
+                 </div>
                  <input type="submit" value="Submit" class="btn btn-success submit">
                 </form>
-                </div>
+                
                 <!-- /.row -->
 
 

@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import ModelForm
+from datetimewidget.widgets import DateTimeWidget, DateWidget, TimeWidget
 
 from petroapp.models import *
 
@@ -28,12 +29,19 @@ class AttendanceRecordCloseForm(ModelForm):
 		self.fields['collection'].widget.attrs.update({'class':'form-control'})
 
 class PetroFillForm(ModelForm):
+	date = forms.DateTimeField(widget=DateTimeWidget(usel10n=True, bootstrap_version=3)) 
 	class Meta:
 		model = FuelRecords
-		fields = ('fu_type', 'litre', 'description', 'veh_num')
+		fields = ('date','bunk','fu_type', 'litre', 'description','veh_num')
+	
+	def __init__(self, *args, **kwargs):
+		super(PetroFillForm, self).__init__(*args, **kwargs)
+		self.fields['date'].widget.attrs.update({'class':'form-control'})
+		self.fields['bunk'].widget.attrs.update({'class':'form-control'})
+		self.fields['fu_type'].widget.attrs.update({'class':'form-control'})
+		self.fields['litre'].widget.attrs.update({'class':'form-control'})
+		self.fields['veh_num'].widget.attrs.update({'class':'form-control'})
+		self.fields['description'].widget.attrs.update({'class':'form-control'})
 
-		def __init__(self, *args, **kwargs):
-			super(PetroFillForm, self).__init__(*args, **kwargs)
-			self.fields['fu_type'].widget.attrs['class'] = 'form-control'
-			self.fields['litre'].widget.attrs['class'] = 'form-control'
-			self.fields['description'].widget.attrs['class'] = 'form-control'
+
+		
