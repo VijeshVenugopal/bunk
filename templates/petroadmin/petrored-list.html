@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Dashboard <small>Statistics Overview</small>
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <i class="fa fa-dashboard"></i> Dashboard
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                    <div class="col-lg-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Red Petrol Arrivals</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Fuel Type</th>
+                                                <th>Litre</th>
+                                                <th>Vehicle Number</th>
+                                                <th>Description</th>
+						<th>Arrival time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+					    {% for obj in redarrivals %}
+                                            <tr>
+                                                <td>{{ obj.fu_type }}</td>
+                                                <td>{{ obj.litre }}</td>
+                                                <td>{{ obj.veh_num }}</td>
+						<td>{{ obj.description }}</td>
+                                                <td>{{ obj.added_time }}</td>
+                                            </tr>
+					    {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+{% endblock %}
