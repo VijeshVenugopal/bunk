@@ -96,15 +96,13 @@ class FuelRecords(models.Model):
         ('red', 'RED'),
         ('green', 'GREEN'),    
 	)
+    bunk = models.ForeignKey(PetroBunk,null=True,blank=True)
+    date = models.DateTimeField(null=True,blank=True)
     fu_type = models.CharField(max_length=5, choices=CHOICES)
     litre = models.PositiveIntegerField()
     description = models.TextField(null=True, blank=True)
     veh_num = models.CharField(max_length=50, null=True, blank=True)
     added_time = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        verbose_name = "Fuel Record"
-        verbose_name_plural = "Fuel Records"
-
     def __unicode__(self):
-        return self.description
+        return self.bunk.name
