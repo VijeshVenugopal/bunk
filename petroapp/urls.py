@@ -6,6 +6,7 @@ urlpatterns = [
     #url(r'^(?P<username>\w+)/$',UserEntryView.as_view(), name="user_entry"),
     url(r'^attendance/$', AttendanceCreateView.as_view(), name="attendance_create"),
     url(r'attendance/(?P<pk>[0-9]+)/$', AttendenceClose.as_view(), name='attendence-close'),
+    url(r'^add-details/$', EmployeeEntryView.as_view(), name="employee-entry"),
     url(r'^petro-details/$', PetroAdminListView.as_view(), name="petroadmin-list"),
     url(r'^list-red/$', PetroRedListView.as_view(), name="petrotype-red"),
     url(r'^list-green/$', PetroGreenListView.as_view(), name="petrotype-green"),

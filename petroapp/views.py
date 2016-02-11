@@ -81,6 +81,11 @@ class AttendanceCreateView(CreateView):
         attendance.save()
         return HttpResponseRedirect(reverse("entry-list"))
 
+class EmployeeEntryView(CreateView):
+    model = AttendanceRecord
+    form_class = AttendanceEntryForm
+    template_name = "petroadmin/employee-entry.html"
+
 class AttendenceClose(UpdateView):
     model = AttendanceRecord
     form_class = AttendanceRecordCloseForm
@@ -106,6 +111,7 @@ class PetroAdminListView(TemplateView):
         context = super(PetroAdminListView, self).get_context_data(**kwargs)
 	context['redentries'] = FuelRecords.objects.filter(fu_type="red").aggregate(Sum('litre'))
 	context['greenentries'] = FuelRecords.objects.filter(fu_type="green").aggregate(Sum('litre'))
+	context['totalcollection'] = AttendanceRecord.objects.filter(date=date.today()).aggregate(Sum('collection'))
 	return context
 
 class PetroFillView(CreateView):

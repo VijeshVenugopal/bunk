@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -73,9 +75,10 @@ class FuelAvailability(models.Model):
         return str(self.litre)
 
 class AttendanceRecord(models.Model):
+    petro_bunk = models.ForeignKey(PetroBunk, related_name="petrobunks")
     user = models.ForeignKey(User)
     status = models.BooleanField(default=False)
-    date = models.DateField(null=True,blank=True)
+    date = models.DateField(null=True,blank=True,default=datetime.date.today)
     checkin_time = models.DateTimeField(null=True,blank=True)
     checkout_time = models.DateTimeField(null=True,blank=True)
     machine = models.ForeignKey(Machine,null=True)

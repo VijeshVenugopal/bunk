@@ -16,7 +16,7 @@ class LoginView(View):
 				login(self.request, user)
 				#redirect_url = '/dashboard'
 				if user.is_superuser:
-				    return HttpResponseRedirect("/dashboard/")
+				    return HttpResponseRedirect(reverse("petroadmin-list"))
 				else:
 				    return HttpResponseRedirect(reverse("entry-list"))
 			return HttpResponse("this is error")

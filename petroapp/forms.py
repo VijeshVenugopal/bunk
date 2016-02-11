@@ -18,6 +18,16 @@ class AttendanceRecordForm(ModelForm):
 		self.fields['machine'].widget.attrs.update({'class':'form-control'})
 		self.fields['start_reading'].widget.attrs.update({'class':'form-control'})
 
+class AttendanceEntryForm(ModelForm):
+	class Meta:
+		model = AttendanceRecord
+		exclude = ('status','date')
+	def __init__(self, *args, **kwargs):
+		super(AttendanceEntryForm, self).__init__(*args, **kwargs)
+		for field_name, field in self.fields.items():
+		    field.widget.attrs['class'] = 'form-control'
+		self.fields['user'].queryset = User.objects.exclude(is_superuser=True)
+
 class AttendanceRecordCloseForm(ModelForm):
 	class Meta:
 		model = AttendanceRecord
