@@ -33,7 +33,8 @@
                                                 <th>Litre</th>
                                                 <th>Vehicle Number</th>
                                                 <th>Description</th>
-						<th>Arrival time</th>
+						                        <th>Place</th>
+                                                <th>Arrival time</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -42,7 +43,8 @@
                                                 <td>{{ obj.fu_type }}</td>
                                                 <td>{{ obj.litre }}</td>
                                                 <td>{{ obj.veh_num }}</td>
-						<td>{{ obj.description }}</td>
+						                        <td>{{ obj.description }}</td>
+                                                <td>{{obj.bunk}}</td>
                                                 <td>{{ obj.added_time }}</td>
                                             </tr>
 					    {% endfor %}

@@ -20,6 +20,7 @@ class AttendanceRecordForm(ModelForm):
 		self.fields['start_reading'].widget.attrs.update({'class':'form-control'})
 
 class AttendanceEntryForm(ModelForm):
+	collection = forms.DecimalField(required=True) 
 	class Meta:
 		model = AttendanceRecord
 		exclude = ('status','date')
