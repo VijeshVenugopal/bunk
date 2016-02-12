@@ -107,3 +107,12 @@ class FuelRecords(models.Model):
 
     def __unicode__(self):
         return str(self.date)
+
+class ExpenseRecord(models.Model):
+    bunk = models.ForeignKey(PetroBunk,null=True)
+    date = models.DateField(null=True,blank=True,default=datetime.date.today)
+    reason = models.CharField(null=True,blank=True,max_length=20)
+    amount = models.DecimalField(max_digits=9, decimal_places=2,null=True,blank=True)
+    receiver = models.CharField(null=True,blank=True,max_length=5)
+    def __unicode__(self):
+        return str(self.bunk)

@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+<style type="text/css">
+    .datetimepicker{
+        top:237px!important;
+    }
+</style>
 <div id="page-wrapper">
 
             <div class="container-fluid">
@@ -8,20 +13,14 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Dashboard <small>Statistics Overview</small>
+                            Add Expense 
                         </h1>
-                        <ol class="breadcrumb">
-                            <li class="active">
-                                <i class="fa fa-dashboard"></i> Dashboard
-                            </li>
-                        </ol>
                     </div>
                 </div>
                 <!-- /.row -->
-
                 <form method="post" action=".">{% csrf_token %}
-                 <div class="row">
-                 <div class="col-md-12">
+                <div class="row">
+          	     <div class="col-md-12">
                  {% for field in form %}
                  
                      <div class="col-md-6"  style="padding:10px">{{field.label}}{{field}}{{field.errors}}</div>
@@ -29,9 +28,13 @@
                  {% endfor %}
                  </div>
                  </div>
-                 
                  <input type="submit" value="Submit" class="btn btn-success submit">
                 </form>
+                
+                <!-- /.row -->
+
+
+
             </div>
             <!-- /.container-fluid -->
 

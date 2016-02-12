@@ -20,6 +20,7 @@ class AttendanceRecordForm(ModelForm):
 		self.fields['start_reading'].widget.attrs.update({'class':'form-control'})
 
 class AttendanceEntryForm(ModelForm):
+	collection = forms.DecimalField(required=True) 
 	class Meta:
 		model = AttendanceRecord
 		exclude = ('status','date','checkin_time','checkout_time')
@@ -53,5 +54,16 @@ class PetroFillForm(ModelForm):
 		self.fields['veh_num'].widget.attrs.update({'class':'form-control'})
 		self.fields['description'].widget.attrs.update({'class':'form-control'})
 
-
+class ExpenseRecordForm(ModelForm):
+	date = forms.DateTimeField(widget=DateTimeWidget(usel10n=True, bootstrap_version=3)) 
+	class Meta:
+		model = ExpenseRecord
+		fields = ('bunk','date','reason','amount','receiver')
+	def __init__(self, *args, **kwargs):
+		super(ExpenseRecordForm, self).__init__(*args, **kwargs)
+		self.fields['bunk'].widget.attrs.update({'class':'form-control'})
+		self.fields['reason'].widget.attrs.update({'class':'form-control'})
+		self.fields['amount'].widget.attrs.update({'class':'form-control'})
+		self.fields['receiver'].widget.attrs.update({'class':'form-control'})
+		
 		
