@@ -184,4 +184,23 @@ class PetroGreenListView(ListView):
 	context['greenarrivals'] = FuelRecords.objects.filter(date__gte=datetime.datetime.now()-timedelta(days=7), fu_type="green")[:10]
 	return context
 
+class ExpenseView(CreateView):
+    model = ExpenseRecord
+    form_class = ExpenseRecordForm
+    template_name = "petroadmin/expense-record.html"
+
+    def form_valid(self,form):
+        expense = form.save(commit=False)
+        expense.save()
+        return HttpResponseRedirect(reverse("expense_list"))
+
+class ExpenseListView(ListView):
+    model = ExpenseRecord
+    template_name = "petroadmin/expense-list.html"
+    def get_context_data(self, *args, **kwargs):
+        context = super(ExpenseListView, self).get_context_data(**kwargs)
+        context['objects_list'] = ExpenseRecord.objects.all()
+        return context
+
+        
 

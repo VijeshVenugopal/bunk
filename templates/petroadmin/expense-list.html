@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="page-wrapper">
+    <div class="container-fluid">
+    <!-- Page Heading -->
+    	<div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Expenses 
+                    <a href="{% url 'expenses_record' %}" style="float:right" class="btn btn-success">Add Expense</a>
+                </h1>
+            </div>
+            
+        </div>
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Expenses</h3>
+            </div>
+			<table class="table">
+			    <thead>
+			      <tr>
+			        <th>SI.No</th>
+			        <th>Date</th>
+			        <th>Bunk</th>
+			        <th>Reason</th>
+			        <th>Amount</th>
+			        <th>Receiver</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      {% for object in objects_list %}<tr>
+			        <td>{{forloop.counter}}</td>
+			        <td>{{object.date}}</td>
+			        <td>{{object.bunk}}</td>
+			        <td>{{object.reason}}</td>
+			        <td>{{object.amount}}</td>
+			        <td>{{object.receiver}}</td>
+			      </tr>
+			      {% endfor%}
+			    </tbody>
+			</table>
+		</div>
+    </div>
+</div>
+                <!-- /.row -->
+	
+{% endblock %}
