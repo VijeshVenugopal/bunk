@@ -95,8 +95,15 @@ class EmployeeEntryView(CreateView):
 	print attendance.petro_bunk.id, "attendance.machine.nameattendance.machine.name"
 	mach = Machine.objects.get(petro_bunk=attendance.petro_bunk.id, name=attendance.machine.name)
 	print mach.fuel, "mmmmmm"
-	f=FuelRecords.objects.filter(fu_type=mach.fuel).aggregate(Sum('litre'))
-	print f, "ffffff"
+	dif = attendance.end_reading-attendance.start_reading
+	#fuel_total=FuelRecords.objects.filter(fu_type=mach.fuel).aggregate(num_litres=Sum('litre')-(attendance.end_reading-	attendance.start_reading))
+	try:
+	    fuel_obj = FuelRecords.objects.get(fu_type=mach.fuel)
+	except:
+	    fuel_obj = FuelRecords.objects.filter(fu_type=mach.fuel)[0]
+	fuel_obj.litre -= dif
+	fuel_obj.save()
+	
         return HttpResponseRedirect(reverse('petroadmin-list'))
 
 class AttendenceClose(UpdateView):
