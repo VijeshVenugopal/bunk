@@ -21,6 +21,7 @@ class Machine(models.Model):
         ('red', 'RED'),
         ('green', 'GREEN'),    
     )
+    petro_bunk = models.ForeignKey(PetroBunk)
     name = models.CharField(max_length=50)
     fuel = models.CharField(max_length=5, choices=CHOICES)
     class Meta:
@@ -105,4 +106,4 @@ class FuelRecords(models.Model):
     added_time = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return self.bunk.name
+        return str(self.date)

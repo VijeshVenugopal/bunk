@@ -86,6 +86,19 @@ class EmployeeEntryView(CreateView):
     form_class = AttendanceEntryForm
     template_name = "petroadmin/employee-entry.html"
 
+    def form_valid(self, form):
+	attendance = form.save(commit=False)
+	attendance.status = True
+        attendance.checkin_time = timezone.now()
+	attendance.checkout_time = timezone.now()
+        attendance.save()
+	print attendance.petro_bunk.id, "attendance.machine.nameattendance.machine.name"
+	mach = Machine.objects.get(petro_bunk=attendance.petro_bunk.id, name=attendance.machine.name)
+	print mach.fuel, "mmmmmm"
+	f=FuelRecords.objects.filter(fu_type=mach.fuel).aggregate(Sum('litre'))
+	print f, "ffffff"
+        return HttpResponseRedirect(reverse('petroadmin-list'))
+
 class AttendenceClose(UpdateView):
     model = AttendanceRecord
     form_class = AttendanceRecordCloseForm
@@ -158,7 +171,7 @@ class PetroRedListView(ListView):
 
     def get_context_data(self, *args, **kwargs):
 	context = super(PetroRedListView, self).get_context_data(**kwargs)
-	context['redarrivals'] = FuelRecords.objects.filter(added_time__lte=datetime.now(), fu_type="red")[:10]
+	context['redarrivals'] = FuelRecords.objects.filter(date__gte=datetime.datetime.now()-timedelta(days=7), fu_type="red")[:10]
 	return context
 
 
@@ -168,7 +181,7 @@ class PetroGreenListView(ListView):
 
     def get_context_data(self, *args, **kwargs):
 	context = super(PetroGreenListView, self).get_context_data(**kwargs)
-	context['greenarrivals'] = FuelRecords.objects.filter(added_time__lte=datetime.now(), fu_type="green")[:10]
+	context['greenarrivals'] = FuelRecords.objects.filter(date__gte=datetime.datetime.now()-timedelta(days=7), fu_type="green")[:10]
 	return context
 
 

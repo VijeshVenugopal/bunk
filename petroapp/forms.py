@@ -23,7 +23,7 @@ class AttendanceEntryForm(ModelForm):
 	collection = forms.DecimalField(required=True) 
 	class Meta:
 		model = AttendanceRecord
-		exclude = ('status','date')
+		exclude = ('status','date','checkin_time','checkout_time')
 	def __init__(self, *args, **kwargs):
 		super(AttendanceEntryForm, self).__init__(*args, **kwargs)
 		for field_name, field in self.fields.items():
