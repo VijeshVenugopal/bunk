@@ -192,7 +192,7 @@ class ExpenseView(CreateView):
     def form_valid(self,form):
         expense = form.save(commit=False)
         expense.save()
-        return HttpResponseRedirect(reverse("expense_list"))
+        return HttpResponseRedirect(reverse("expenses_list"))
 
 class ExpenseListView(ListView):
     model = ExpenseRecord
