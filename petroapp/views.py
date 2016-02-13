@@ -92,11 +92,16 @@ class EmployeeEntryView(CreateView):
         attendance.checkin_time = timezone.now()
 	attendance.checkout_time = timezone.now()
         attendance.save()
-	print attendance.petro_bunk.id, "attendance.machine.nameattendance.machine.name"
 	mach = Machine.objects.get(petro_bunk=attendance.petro_bunk.id, name=attendance.machine.name)
-	print mach.fuel, "mmmmmm"
-	f=FuelRecords.objects.filter(fu_type=mach.fuel).aggregate(Sum('litre'))
-	print f, "ffffff"
+	dif = attendance.end_reading-attendance.start_reading
+	#fuel_total=FuelRecords.objects.filter(fu_type=mach.fuel).aggregate(num_litres=Sum('litre')-(attendance.end_reading-	attendance.start_reading))
+	try:
+	    fuel_obj = FuelRecords.objects.get(fu_type=mach.fuel)
+	except:
+	    fuel_obj = FuelRecords.objects.filter(fu_type=mach.fuel)[0]
+	fuel_obj.litre -= dif
+	fuel_obj.save()
+	
         return HttpResponseRedirect(reverse('petroadmin-list'))
 
 class AttendenceClose(UpdateView):
@@ -201,6 +206,3 @@ class ExpenseListView(ListView):
         context = super(ExpenseListView, self).get_context_data(**kwargs)
         context['objects_list'] = ExpenseRecord.objects.all()
         return context
-
-        
-
