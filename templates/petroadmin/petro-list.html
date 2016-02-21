@@ -1,125 +1,168 @@
 {% extends 'base.html' %}
 {% block content %}
 <div id="page-wrapper">
-
-            <div class="container-fluid">
-
-                <!-- Page Heading -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Dashboard <small>Statistics Overview</small>
-                        </h1>
-                        <ol class="breadcrumb">
-                            <li class="active">
-                                <i class="fa fa-dashboard"></i> Dashboard
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-                <!-- /.row -->
-
-                <div class="row">
-                    
-		    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-support fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">{{ redentries.litre__sum }}</div>
-                                        <div>Litres</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <a href="{% url 'petrotype-red' %}">
-				       <span class="pull-left">Red Petrol Details</span>
-                                       <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-				   </a>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">{{ greenentries.litre__sum }}</div>
-                                        <div>Litres</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-				<a href="{% url 'petrotype-green' %}">
-                                    <span class="pull-left">Green Petrol Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-				</a>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-shopping-cart fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">{{ totalcollection.collection__sum|floatformat }}</div>
-                                        <div>Total Collection!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-comments fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">26</div>
-                                        <div>New Comments!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-
-
-
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Dashboard <small>Statistics Overview</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li class="active">
+                        <i class="fa fa-dashboard"></i> Dashboard
+                    </li>
+                </ol>
             </div>
-            <!-- /.container-fluid -->
-
         </div>
+        <!-- /.row -->
+        <div class="row">
+            <h3 >date : 17/12/2016</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+            <h3>Bunk 1</h3>
+            <table class=" table table-bordered">
+                <th></th>
+                <th>Red</th>
+                <th>Green</th>
+                <tr>
+                    <td>Opening Reading</td>
+                    <td>Red Opening</td>
+                    <td>Green opening</td>
+                </tr>
+                <tr>
+                    <td>Cosing Reading</td>
+                    <td>Red Closing Reading</td>
+                    <td>green Closing Reading</td>
+                </tr>
+                <tr>
+                    <td>Total Sale</td>
+                    <td>red opeing-closing</td>
+                    <td>Green opeing-closing</td>
+                </tr>
+                <tr>
+                    <td>total money</td>
+                    <td>Red total</td>
+                    <td>green total</td>
+                </tr>
+                <tr>
+                    <td>Physical Money</td>
+                    <td>Red</td>
+                    <td>green </td>
+                </tr>
+            </table>
+            </div>
+            <div class="col-md-6">
+            <h3>Bunk 2</h3>
+            <table class=" table table-bordered">
+                <th></th>
+                <th>Red</th>
+                <th>Green</th>
+                <tr>
+                    <td>Opening Reading</td>
+                    <td>Red Opening</td>
+                    <td>Green opening</td>
+                </tr>
+                <tr>
+                    <td>Cosing Reading</td>
+                    <td>Red Closing Reading</td>
+                    <td>green Closing Reading</td>
+                </tr>
+                <tr>
+                    <td>Total Sale</td>
+                    <td>red opeing-closing</td>
+                    <td>Green opeing-closing</td>
+                </tr>
+                <tr>
+                    <td>total money</td>
+                    <td>Red total</td>
+                    <td>green total</td>
+                </tr>
+                <tr>
+                    <td>Physical Money</td>
+                    <td>Red</td>
+                    <td>green </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+            <h3>Bunk 1</h3>
+            <table class=" table table-bordered">
+                <th></th>
+                <th>Red</th>
+                <th>Green</th>
+                <tr>
+                    <td>Opening Reading</td>
+                    <td>Red Opening</td>
+                    <td>Green opening</td>
+                </tr>
+                <tr>
+                    <td>Cosing Reading</td>
+                    <td>Red Closing Reading</td>
+                    <td>green Closing Reading</td>
+                </tr>
+                <tr>
+                    <td>Total Sale</td>
+                    <td>red opeing-closing</td>
+                    <td>Green opeing-closing</td>
+                </tr>
+                <tr>
+                    <td>total money</td>
+                    <td>Red total</td>
+                    <td>green total</td>
+                </tr>
+                <tr>
+                    <td>Physical Money</td>
+                    <td>Red</td>
+                    <td>green </td>
+                </tr>
+            </table>
+            </div>
+            <div class="col-md-6">
+            <h3>Bunk 2</h3>
+            <table class=" table table-bordered">
+                <th></th>
+                <th>Red</th>
+                <th>Green</th>
+                <tr>
+                    <td>Opening Reading</td>
+                    <td>Red Opening</td>
+                    <td>Green opening</td>
+                </tr>
+                <tr>
+                    <td>Cosing Reading</td>
+                    <td>Red Closing Reading</td>
+                    <td>green Closing Reading</td>
+                </tr>
+                <tr>
+                    <td>Total Sale</td>
+                    <td>red opeing-closing</td>
+                    <td>Green opeing-closing</td>
+                </tr>
+                <tr>
+                    <td>total money</td>
+                    <td>Red total</td>
+                    <td>green total</td>
+                </tr>
+                <tr>
+                    <td>Physical Money</td>
+                    <td>Red</td>
+                    <td>green </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+
+
+        
+
+
+
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
 {% endblock %}
