@@ -87,21 +87,20 @@ class EmployeeEntryView(CreateView):
     template_name = "petroadmin/employee-entry.html"
 
     def form_valid(self, form):
-	attendance = form.save(commit=False)
-	attendance.status = True
+        attendance = form.save(commit=False)
+        attendance.status = True
         attendance.checkin_time = timezone.now()
-	attendance.checkout_time = timezone.now()
+        attendance.checkout_time = timezone.now()
         attendance.save()
-	mach = Machine.objects.get(petro_bunk=attendance.petro_bunk.id, name=attendance.machine.name)
-	dif = attendance.end_reading-attendance.start_reading
-	#fuel_total=FuelRecords.objects.filter(fu_type=mach.fuel).aggregate(num_litres=Sum('litre')-(attendance.end_reading-	attendance.start_reading))
-	try:
-	    fuel_obj = FuelRecords.objects.get(fu_type=mach.fuel)
-	except:
-	    fuel_obj = FuelRecords.objects.filter(fu_type=mach.fuel)[0]
-	fuel_obj.litre -= dif
-	fuel_obj.save()
-	
+        mach = Machine.objects.get(petro_bunk=attendance.petro_bunk.id, name=attendance.machine.name)
+        dif = attendance.end_reading-attendance.start_reading
+        #fuel_total=FuelRecords.objects.filter(fu_type=mach.fuel).aggregate(num_litres=Sum('litre')-(attendance.end_reading-	attendance.start_reading))
+        try:
+            fuel_obj = FuelRecords.objects.get(fu_type=mach.fuel)
+        except:
+            fuel_obj = FuelRecords.objects.filter(fu_type=mach.fuel)[0]
+            fuel_obj.litre -= dif
+            fuel_obj.save()
         return HttpResponseRedirect(reverse('petroadmin-list'))
 
 class AttendenceClose(UpdateView):
@@ -127,10 +126,11 @@ class PetroAdminListView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(PetroAdminListView, self).get_context_data(**kwargs)
-	context['redentries'] = FuelRecords.objects.filter(fu_type="red").aggregate(Sum('litre'))
-	context['greenentries'] = FuelRecords.objects.filter(fu_type="green").aggregate(Sum('litre'))
-	context['totalcollection'] = AttendanceRecord.objects.filter(date=date.today()).aggregate(Sum('collection'))
-	return context
+        context['objects'] = DailyInputs.objects.all()
+        context['redentries'] = FuelRecords.objects.filter(fu_type="red").aggregate(Sum('litre'))
+        context['greenentries'] = FuelRecords.objects.filter(fu_type="green").aggregate(Sum('litre'))
+        context['totalcollection'] = AttendanceRecord.objects.filter(date=date.today()).aggregate(Sum('collection'))
+        return context
 
 class PetroFillView(CreateView):
     model = FuelRecords
@@ -189,4 +189,29 @@ class PetroGreenListView(ListView):
 	context['greenarrivals'] = FuelRecords.objects.filter(date__gte=datetime.datetime.now()-timedelta(days=7), fu_type="green")[:10]
 	return context
 
+class ExpenseView(CreateView):
+    model = ExpenseRecord
+    form_class = ExpenseRecordForm
+    template_name = "petroadmin/expense-record.html"
+
+    def form_valid(self,form):
+        expense = form.save(commit=False)
+        expense.save()
+        return HttpResponseRedirect(reverse("expenses_list"))
+
+class ExpenseListView(ListView):
+    model = ExpenseRecord
+    template_name = "petroadmin/expense-list.html"
+    def get_context_data(self, *args, **kwargs):
+        context = super(ExpenseListView, self).get_context_data(**kwargs)
+        context['objects_list'] = ExpenseRecord.objects.all()
+        return context
+
+class StockView(ListView):
+    model = ExpenseRecord
+    template_name = "petroadmin/stock-balance.html"
+    def get_context_data(self, *args, **kwargs):
+        context = super(StockView, self).get_context_data(**kwargs)
+        context['objects_list'] = ExpenseRecord.objects.all()
+        return context
 

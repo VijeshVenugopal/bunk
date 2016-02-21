@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^registration/$', MyRegistrationView.as_view(), name="employee_registration"),
     url(r'^expenses/list$',ExpenseListView.as_view(), name="expenses_list"),
     url(r'^expenses/$',ExpenseView.as_view(), name="expenses_record"),
+    url(r'^stock/$',StockView.as_view(), name="stock_balance"),
 
 ]
 
