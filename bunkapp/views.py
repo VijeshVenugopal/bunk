@@ -11,16 +11,14 @@ class LoginView(View):
 		username = self.request.POST.get("username")
 		password = self.request.POST.get("password")
 		user = authenticate(username=username, password=password)
-		if user is not None:
-			if user.is_active:
-				login(self.request, user)
-				#redirect_url = '/dashboard'
-				if user.is_superuser:
-				    return HttpResponseRedirect(reverse("petroadmin-list"))
-				else:
-				    return HttpResponseRedirect(reverse("entry-list"))
+		if user is not None and user.is_active:
+			login(self.request, user)
+			#redirect_url = '/dashboard'
+			if user.is_superuser:
+			    return HttpResponseRedirect(reverse("petroadmin-list"))
+			
 			return HttpResponse("this is error")
-		return HttpResponse("eeeee")
+		return HttpResponse("Invalid credentials")
 
 
 class LandingView(TemplateView):
