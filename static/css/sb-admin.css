@@ -263,3 +263,7 @@ ul.alert-dropdown {
 #subBtn{
     margin-top: 20px
 }
+::selection {
+    color: red !important;
+    background: yellow !important;
+}
