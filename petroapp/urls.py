@@ -16,6 +16,5 @@ urlpatterns = [
     url(r'^expenses/list$',ExpenseListView.as_view(), name="expenses_list"),
     url(r'^expenses/$',ExpenseView.as_view(), name="expenses_record"),
     url(r'^stock/$',StockView.as_view(), name="stock_balance"),
-    url(r'bunk-detail/(?P<pk>[0-9]+)/$', BunkDetailView.as_view(), name='bunk-detail'),
 ]
 

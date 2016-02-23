@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.views.generic.base import TemplateView
 from django.db.models import Sum
 from django.contrib.auth.models import User
+from django.template.context import RequestContext
 from registration.backends.simple.views import RegistrationView
 
 from petroapp.forms import *
@@ -131,8 +132,24 @@ class PetroAdminListView(TemplateView):
         #context['greenentries'] = FuelRecords.objects.filter(fu_type="green", added_time__lte=datetime.datetime.now()).aggregate(Sum('litre'))
         #context['totalcollection'] = AttendanceRecord.objects.filter(date=date.today()).aggregate(Sum('collection'))
 	context['attendance_objs'] = AttendanceRecord.objects.all()
-	context['records'] = FuelRecords.objects.all()
+	context['bunks'] = PetroBunk.objects.all()
         return context
+
+    def post(self, request, *args, **kwargs):
+        bunk_id = self.request.POST['bunk']
+        recs = FuelRecords.objects.filter(bunk=bunk_id)
+	context = {}
+	context['form'] = MyBunkForm()
+	for r in recs:
+     	    print dir(r)
+	return self.render_to_response(context)
+
+    def get(self, request, *args, **kwargs):
+        context = super(PetroAdminListView, self).get_context_data(**kwargs)
+        context['form'] = MyBunkForm()
+        return self.render_to_response(context)
+
+    
 
 class PetroFillView(CreateView):
     model = FuelRecords
@@ -216,8 +233,3 @@ class StockView(ListView):
         context = super(StockView, self).get_context_data(**kwargs)
         context['objects_list'] = ExpenseRecord.objects.all()
         return context
-
-class BunkDetailView(DetailView):
-    model = FuelRecords
-    template_name = "petroadmin/bunk-detail.html"
-

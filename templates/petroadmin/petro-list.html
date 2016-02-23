@@ -19,20 +19,17 @@
         <div class="row">
             <h3 >date : {% now "d/m/y" %}</h3>
         </div>
-	{% for record in records %}
+
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <form role="form">
+                <form role="form" id="bunk_form" action="." method="post">{% csrf_token %}
                     <div class="form-group">
+		      <input id="bunk_id" type="hidden" value=""/>
                       <label for="sel1">Select Bunk</label>
-                      <select class="form-control" id="sel1">
-                        <option>Bunk 1</option>
-                        <option>Bunk 2</option>
-                        <option>Bunk 3</option>
-                        <option>Bunk 4</option>
-                      </select>
+                      {{form.as_p}}
                     </div>
+		</form>
             <div class="col-md-3"></div>
         </div>
         <div class="row">
@@ -73,8 +70,6 @@
 
         </div>
 	<div>
-	{% endif %}
-        {% endfor %}
 
 	</div>
 
@@ -82,4 +77,12 @@
     <!-- /.container-fluid -->
 
 </div>
+{% endblock %}
+{% block extra_js %}
+<script>
+$('#id_bunk').on('change', function() {
+    $("#bunk_id").val($(this).find(":selected").val());
+    $("#bunk_form").submit();
+});
+</script>
 {% endblock %}
