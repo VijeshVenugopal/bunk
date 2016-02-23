@@ -2,7 +2,7 @@ from datetime import date, datetime
 from datetime import timedelta
 from django.shortcuts import render
 from django.views.generic import View
-from django.views.generic import CreateView, ListView,UpdateView
+from django.views.generic import CreateView, ListView,UpdateView, DetailView
 from django.http import HttpResponse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -127,9 +127,11 @@ class PetroAdminListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(PetroAdminListView, self).get_context_data(**kwargs)
         context['objects'] = DailyInputs.objects.all()
-        context['redentries'] = FuelRecords.objects.filter(fu_type="red").aggregate(Sum('litre'))
-        context['greenentries'] = FuelRecords.objects.filter(fu_type="green").aggregate(Sum('litre'))
-        context['totalcollection'] = AttendanceRecord.objects.filter(date=date.today()).aggregate(Sum('collection'))
+        #context['redentries'] = FuelRecords.objects.filter(fu_type="red", added_time__lte=datetime.datetime.now()).aggregate(Sum('litre'))
+        #context['greenentries'] = FuelRecords.objects.filter(fu_type="green", added_time__lte=datetime.datetime.now()).aggregate(Sum('litre'))
+        #context['totalcollection'] = AttendanceRecord.objects.filter(date=date.today()).aggregate(Sum('collection'))
+	context['attendance_objs'] = AttendanceRecord.objects.all()
+	context['records'] = FuelRecords.objects.all()
         return context
 
 class PetroFillView(CreateView):
@@ -176,7 +178,7 @@ class PetroRedListView(ListView):
 
     def get_context_data(self, *args, **kwargs):
 	context = super(PetroRedListView, self).get_context_data(**kwargs)
-	context['redarrivals'] = FuelRecords.objects.filter(date__gte=datetime.datetime.now()-timedelta(days=7), fu_type="red")[:10]
+	context['redarrivals'] = FuelRecords.objects.filter(date__gte=datetime.datetime.now()-timedelta(days=7), fu_type="red")
 	return context
 
 
@@ -186,7 +188,7 @@ class PetroGreenListView(ListView):
 
     def get_context_data(self, *args, **kwargs):
 	context = super(PetroGreenListView, self).get_context_data(**kwargs)
-	context['greenarrivals'] = FuelRecords.objects.filter(date__gte=datetime.datetime.now()-timedelta(days=7), fu_type="green")[:10]
+	context['greenarrivals'] = FuelRecords.objects.filter(date__gte=datetime.datetime.now()-timedelta(days=7), fu_type="green")
 	return context
 
 class ExpenseView(CreateView):
@@ -214,4 +216,8 @@ class StockView(ListView):
         context = super(StockView, self).get_context_data(**kwargs)
         context['objects_list'] = ExpenseRecord.objects.all()
         return context
+
+class BunkDetailView(DetailView):
+    model = FuelRecords
+    template_name = "petroadmin/bunk-detail.html"
 
