@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^petro-details/$', PetroAdminListView.as_view(), name="petroadmin-list"),
     url(r'^list-red/$', PetroRedListView.as_view(), name="petrotype-red"),
     url(r'^list-green/$', PetroGreenListView.as_view(), name="petrotype-green"),
+    url(r'^fill-list/$', PetroFillListView.as_view(), name="petro-fill-list"),
     url(r'^fill-petrol/$', PetroFillView.as_view(), name="petro-fill"),
     url(r'^update-petrol/(?P<pk>[0-9]+)/$', PetroUpdateView.as_view(), name="petro-update"),
     url(r'employees/$', EmployeesListView.as_view(), name="employee_list"),
