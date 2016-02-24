@@ -137,11 +137,22 @@ class PetroAdminListView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         bunk_id = self.request.POST['bunk']
-        recs = FuelRecords.objects.filter(bunk=bunk_id)
+        recs = AttendanceRecord.objects.filter(petro_bunk_id=bunk_id)
 	context = {}
 	context['form'] = MyBunkForm()
-	for r in recs:
-     	    print dir(r)
+	if recs:
+	    for r in recs:
+     	        if r.machine.fuel == "red":
+ 		    context['red_start'] = r.start_reading
+		    context['red_end'] = r.end_reading
+		    context['red_total'] = r.collection
+		    context['red_diff'] = r.end_reading - r.start_reading
+	        if r.machine.fuel == "green":
+		    context['green_start'] = r.start_reading
+		    context['green_end'] = r.end_reading
+		    context['green_total'] = r.collection
+		    context['green_diff'] = r.end_reading - r.start_reading
+		
 	return self.render_to_response(context)
 
     def get(self, request, *args, **kwargs):
