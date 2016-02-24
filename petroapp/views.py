@@ -169,9 +169,9 @@ class PetroFillView(CreateView):
 
     def form_valid(self, form):
         obj = form.save(commit=False)
-	obj.added_time = timezone.now()
-	obj.save()
-        return HttpResponseRedirect(reverse('petroadmin-list'))
+        obj.added_time = timezone.now()
+        obj.save()
+        return HttpResponseRedirect(reverse('petro-fill-list'))
 
 class PetroUpdateView(UpdateView):
     model = FuelRecords
@@ -243,4 +243,12 @@ class StockView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(StockView, self).get_context_data(**kwargs)
         context['objects_list'] = ExpenseRecord.objects.all()
+        return context
+
+class PetroFillListView(ListView):
+    model = FuelRecords
+    template_name = "petroadmin/fill_list.html"
+    def get_context_data(self, *args, **kwargs):
+        context = super(PetroFillListView, self).get_context_data(**kwargs)
+        context['objects_list'] = FuelRecords.objects.all()
         return context
