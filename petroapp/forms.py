@@ -68,3 +68,9 @@ class ExpenseRecordForm(ModelForm):
 		
 class MyBunkForm(forms.Form):
 	bunk = forms.ModelChoiceField(queryset=PetroBunk.objects.all())
+
+	def __init__(self, *args, **kwargs):
+		super(MyBunkForm, self).__init__(*args, **kwargs)
+		self.fields['bunk'].widget.attrs.update({'class':'form-control'})
+		self.fields['bunk'].label="Select Bunk"
+
