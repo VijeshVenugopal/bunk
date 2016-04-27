@@ -54,6 +54,22 @@ class PetroFillForm(ModelForm):
 		self.fields['veh_num'].widget.attrs.update({'class':'form-control'})
 		self.fields['description'].widget.attrs.update({'class':'form-control'})
 
+class PetroFuelFillForm(ModelForm):
+	date = forms.DateTimeField(widget=DateTimeWidget(usel10n=True, bootstrap_version=3)) 
+	class Meta:
+		model = FuelFillRecords
+		exclude = ('added_time',)
+	
+	def __init__(self, *args, **kwargs):
+		super(PetroFuelFillForm, self).__init__(*args, **kwargs)
+		self.fields['date'].widget.attrs.update({'class':'form-control'})
+		self.fields['bunk'].widget.attrs.update({'class':'form-control'})
+		self.fields['red_litre'].widget.attrs.update({'class':'form-control'})
+		self.fields['green_litre'].widget.attrs.update({'class':'form-control'})
+		self.fields['diesel_litre'].widget.attrs.update({'class':'form-control'})
+		self.fields['veh_num'].widget.attrs.update({'class':'form-control'})
+		self.fields['description'].widget.attrs.update({'class':'form-control'})
+
 class ExpenseRecordForm(ModelForm):
 	date = forms.DateTimeField(widget=DateTimeWidget(usel10n=True, bootstrap_version=3)) 
 	class Meta:

@@ -131,15 +131,18 @@ class PetroAdminListView(TemplateView):
         #context['redentries'] = FuelRecords.objects.filter(fu_type="red", added_time__lte=datetime.datetime.now()).aggregate(Sum('litre'))
         #context['greenentries'] = FuelRecords.objects.filter(fu_type="green", added_time__lte=datetime.datetime.now()).aggregate(Sum('litre'))
         #context['totalcollection'] = AttendanceRecord.objects.filter(date=date.today()).aggregate(Sum('collection'))
-	context['attendance_objs'] = AttendanceRecord.objects.all()
-	context['bunks'] = PetroBunk.objects.all()
+        context['attendance_objs'] = AttendanceRecord.objects.all()
+        context['bunks'] = PetroBunk.objects.all()
         return context
 
     def post(self, request, *args, **kwargs):
         bunk_id = self.request.POST['bunk']
+	if bunk_id:
+	    cur_bunk = PetroBunk.objects.get(id=bunk_id)
         recs = AttendanceRecord.objects.filter(petro_bunk_id=bunk_id)
 	context = {}
 	context['form'] = MyBunkForm()
+	context['bunk'] = cur_bunk.name
 	if recs:
 	    for r in recs:
      	        if r.machine.fuel == "red":
@@ -156,15 +159,31 @@ class PetroAdminListView(TemplateView):
 	return self.render_to_response(context)
 
     def get(self, request, *args, **kwargs):
+	bunk_id = self.kwargs['pk']
+	if bunk_id:
+	    cur_bunk = PetroBunk.objects.get(id=bunk_id)
+	recs = AttendanceRecord.objects.filter(petro_bunk_id=bunk_id)
         context = super(PetroAdminListView, self).get_context_data(**kwargs)
-        context['form'] = MyBunkForm()
+	context['bunk'] = cur_bunk.name
+	if recs:
+	    for r in recs:
+     	        if r.machine.fuel == "red":
+ 		    context['red_start'] = r.start_reading
+		    context['red_end'] = r.end_reading
+		    context['red_total'] = r.collection
+		    context['red_diff'] = r.end_reading - r.start_reading
+	        if r.machine.fuel == "green":
+		    context['green_start'] = r.start_reading
+		    context['green_end'] = r.end_reading
+		    context['green_total'] = r.collection
+		    context['green_diff'] = r.end_reading - r.start_reading
         return self.render_to_response(context)
 
     
 
 class PetroFillView(CreateView):
-    model = FuelRecords
-    form_class = PetroFillForm
+    model = FuelFillRecords
+    form_class = PetroFuelFillForm
     template_name = "petroadmin/petro-fill.html"
 
     def form_valid(self, form):
@@ -174,22 +193,22 @@ class PetroFillView(CreateView):
         return HttpResponseRedirect(reverse('petro-fill-list'))
 
 class PetroUpdateView(UpdateView):
-    model = FuelRecords
-    form_class = PetroFillForm
+    model = FuelFillRecords
+    form_class = PetroFuelFillForm
     template_name = "petroadmin/petro-fill.html"
 
     def get(self, request, *args, **kwargs):
         self.object = FuelRecords.objects.get(id=self.kwargs['pk'])
-	form_class = self.get_form_class()
-	form = self.get_form(form_class)
-	context = self.get_context_data(object=self.object, form=form)
-	return self.render_to_response(context)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        context = self.get_context_data(object=self.object, form=form)
+        return self.render_to_response(context)
 
     def form_valid(self, form):
         obj = form.save(commit=False)
-	obj.added_time = timezone.now()
-	obj.save()
-	return HttpResponseRedirect(reverse('petroadmin-list'))
+        obj.added_time = timezone.now()
+        obj.save()
+        return HttpResponseRedirect(reverse('petroadmin-list'))
 
 class EmployeesListView(ListView):
     model = User
@@ -242,7 +261,8 @@ class StockView(ListView):
     template_name = "petroadmin/stock-balance.html"
     def get_context_data(self, *args, **kwargs):
         context = super(StockView, self).get_context_data(**kwargs)
-        context['objects_list'] = ExpenseRecord.objects.all()
+        context['objects_list'] = FuelFillRecords.objects.all()
+	print context['objects_list'], "context['objects_list']context['objects_list']"
         return context
 
 class PetroFillListView(ListView):
@@ -250,5 +270,5 @@ class PetroFillListView(ListView):
     template_name = "petroadmin/fill_list.html"
     def get_context_data(self, *args, **kwargs):
         context = super(PetroFillListView, self).get_context_data(**kwargs)
-        context['objects_list'] = FuelRecords.objects.all()
+        context['objects_list'] = FuelFillRecords.objects.all()
         return context

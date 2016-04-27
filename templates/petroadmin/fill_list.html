@@ -25,8 +25,9 @@
                     
                     <th>Date</th>
                     <th>Bunk</th>
-                    <th>Fuel Type</th>
-                    <th>Litre</th>
+                    <th>Red</th>
+                    <th>Green</th>
+		    <th>Diesel</th>
                     <th>Comments</th>
                     <th>Vehicle Number</th>
                     {% for objects in objects_list %}
@@ -34,8 +35,9 @@
                         
                             <td>{{objects.date}}</td>
                             <td>{{objects.bunk}}</td>
-                            <td>{{objects.fu_type}}</td>
-                            <td>{{objects.litre}}</td>
+                            <td>{{objects.red_litre}}</td>
+                            <td>{{objects.green_litre}}</td>
+			    <td>{{objects.diesel_litre}}</td>
                             <td>{{objects.description}}</td>
                             <td>{{objects.veh_num}}</td>
                         

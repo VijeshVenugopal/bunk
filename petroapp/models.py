@@ -108,6 +108,22 @@ class FuelRecords(models.Model):
     def __unicode__(self):
         return str(self.date)
 
+class FuelFillRecords(models.Model):
+    """
+       Models for storing fuel fill records.
+    """
+    bunk = models.ForeignKey(PetroBunk,null=True,blank=True)
+    date = models.DateTimeField(null=True,blank=True)
+    red_litre = models.PositiveIntegerField()
+    green_litre = models.PositiveIntegerField()
+    diesel_litre = models.PositiveIntegerField()
+    description = models.TextField(null=True, blank=True)
+    veh_num = models.CharField(max_length=50, null=True, blank=True)
+    added_time = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return str(self.bunk.name)
+
 class ExpenseRecord(models.Model):
     bunk = models.ForeignKey(PetroBunk,null=True)
     date = models.DateField(null=True,blank=True,default=datetime.date.today)

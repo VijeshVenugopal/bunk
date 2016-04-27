@@ -15,7 +15,7 @@ class LoginView(View):
 			login(self.request, user)
 			#redirect_url = '/dashboard'
 			if user.is_superuser:
-			    return HttpResponseRedirect(reverse("petroadmin-list"))
+			    return HttpResponseRedirect(reverse("stock_balance"))
 			
 			return HttpResponse("this is error")
 		return HttpResponse("Invalid credentials")
