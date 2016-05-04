@@ -20,7 +20,9 @@ class AttendanceRecordForm(ModelForm):
 		self.fields['start_reading'].widget.attrs.update({'class':'form-control'})
 
 class AttendanceEntryForm(ModelForm):
+	added_date = forms.DateTimeField(widget=DateTimeWidget(usel10n=True, bootstrap_version=3)) 
 	collection = forms.DecimalField(required=True) 
+
 	class Meta:
 		model = AttendanceRecord
 		exclude = ('status','date','checkin_time','checkout_time')

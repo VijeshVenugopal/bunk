@@ -30,6 +30,7 @@
 		    <th>Diesel</th>
                     <th>Comments</th>
                     <th>Vehicle Number</th>
+		    <th>Update Here</th>
                     {% for objects in objects_list %}
                     <tr>
                         
@@ -40,7 +41,7 @@
 			    <td>{{objects.diesel_litre}}</td>
                             <td>{{objects.description}}</td>
                             <td>{{objects.veh_num}}</td>
-                        
+                            <td><a class="btn btn-primary" href="{% url 'petro-update' objects.id %}"> Update Entry</a></td>
                     </tr>
                     {% endfor %}
                     </table>

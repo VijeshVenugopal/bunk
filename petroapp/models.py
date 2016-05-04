@@ -76,6 +76,11 @@ class FuelAvailability(models.Model):
         return str(self.litre)
 
 class AttendanceRecord(models.Model):
+    CHOICES = (
+	('s1','SHIFT1'),
+	('s2','SHIFT2')
+	)
+    shift_type = models.CharField(max_length=10, choices=CHOICES)
     petro_bunk = models.ForeignKey(PetroBunk, related_name="petrobunks")
     user = models.ForeignKey(User)
     status = models.BooleanField(default=False)
@@ -83,11 +88,16 @@ class AttendanceRecord(models.Model):
     checkin_time = models.DateTimeField(null=True,blank=True)
     checkout_time = models.DateTimeField(null=True,blank=True)
     machine = models.ForeignKey(Machine,null=True)
-    start_reading = models.DecimalField(max_digits=7, decimal_places=2,null=True)
-    end_reading = models.DecimalField(max_digits=5, decimal_places=2,null=True)
+    start_reading = models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=True)
+    end_reading = models.DecimalField(max_digits=5, decimal_places=2,null=True,blank=True)
+    start_reading_green = models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=True)
+    end_reading_green = models.DecimalField(max_digits=5, decimal_places=2,null=True,blank=True)
+    start_reading_diesel = models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=True)
+    end_reading_diesel = models.DecimalField(max_digits=5, decimal_places=2,null=True,blank=True)
     collection = models.DecimalField(max_digits=9, decimal_places=2,null=True,blank=True)
+
     def __unicode__(self):
-        return str(self.user)
+        return "%s-%s" % (str(self.user), self.date)
 
 class FuelRecords(models.Model):
     """
@@ -132,3 +142,11 @@ class ExpenseRecord(models.Model):
     receiver = models.CharField(null=True,blank=True,max_length=5)
     def __unicode__(self):
         return str(self.bunk)
+
+class FuelRate(models.Model):
+    red_rate = models.DecimalField(max_digits=9, decimal_places=2,null=True,blank=True)
+    green_rate = models.DecimalField(max_digits=9, decimal_places=2,null=True,blank=True)
+    diesel_rate = models.DecimalField(max_digits=9, decimal_places=2,null=True,blank=True)
+
+    def __unicode__(self):
+        return "%s-%s-%s" % (self.red_rate,self.green_rate,self.diesel_rate)

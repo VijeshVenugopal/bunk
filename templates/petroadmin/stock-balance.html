@@ -24,30 +24,23 @@
                     <th>Red</th>
                     <th>Green</th>
                     <th>Diesel</th>
+                    {% for objects in objects_list %}
                     <tr>
-                        <td>Bunk 1</td>
-                        <td>Red Balance</td>
-                        <td>Green Balance</td>
-                        <td>Deisel Baance</td>
+                        
+                            <td>{{objects.bunk}}</td>
+                            <td>{{objects.red_litre}}</td>
+                            <td>{{objects.green_litre}}</td>
+			    <td>{{objects.diesel_litre}}</td>
+			    {% if objects.description %}
+                            <td>{{objects.description}}</td>
+			    {% endif %}
+			    {% if objects.veh_num %}
+                            <td>{{objects.veh_num}}</td>
+                            {% endif %}
+                    <td><a href="{% url 'petroadmin-list' objects.id %}">click</a> </td>
                     </tr>
-                    <tr>
-                        <td>Bunk 2</td>
-                        <td>Red Balance</td>
-                        <td>Green Balance</td>
-                        <td>Deisel Baance</td>
-                    </tr>
-                    <tr>
-                        <td>Bunk 3</td>
-                        <td>Red balance</td>
-                        <td>Green balance</td>
-                        <td>Deisel Baance</td>
-                    </tr>
-                    <tr>
-                        <td>Bunk 4</td>
-                        <td>Red balance</td>
-                        <td>Green Baance</td>
-                        <td>Deisel Baance</td>
-                    </tr>
+                    {% endfor %}
+
                     </table>
                 </div>
                 </div>

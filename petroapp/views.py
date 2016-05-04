@@ -15,6 +15,7 @@ from django.template.context import RequestContext
 from registration.backends.simple.views import RegistrationView
 
 from petroapp.forms import *
+from petroapp.models import FuelRate
 
 
 class MyRegistrationView(RegistrationView):
@@ -93,16 +94,28 @@ class EmployeeEntryView(CreateView):
         attendance.checkin_time = timezone.now()
         attendance.checkout_time = timezone.now()
         attendance.save()
-        mach = Machine.objects.get(petro_bunk=attendance.petro_bunk.id, name=attendance.machine.name)
-        dif = attendance.end_reading-attendance.start_reading
+        #mach = Machine.objects.get(petro_bunk=attendance.petro_bunk.id, name=attendance.machine.name)
+        #dif = attendance.end_reading-attendance.start_reading
         #fuel_total=FuelRecords.objects.filter(fu_type=mach.fuel).aggregate(num_litres=Sum('litre')-(attendance.end_reading-	attendance.start_reading))
-        try:
-            fuel_obj = FuelRecords.objects.get(fu_type=mach.fuel)
-        except:
-            fuel_obj = FuelRecords.objects.filter(fu_type=mach.fuel)[0]
-            fuel_obj.litre -= dif
-            fuel_obj.save()
-        return HttpResponseRedirect(reverse('petroadmin-list'))
+        #try:
+            #fuel_obj = FuelRecords.objects.get(fu_type=mach.fuel)
+        #except:
+            #fuel_obj = FuelRecords.objects.filter(fu_type=mach.fuel)[0]
+            #fuel_obj.litre -= dif
+            #fuel_obj.save()
+	try:
+	    fill_obj = FuelFillRecords.objects.get(bunk=attendance.petro_bunk.id)
+	except:
+	    fill_obj = FuelFillRecords.objects.filter(bunk=attendance.petro_bunk.id)[0]
+	if fill_obj:
+	    if fill_obj.red_litre >= 0 and attendance.end_reading >= 0 and attendance.start_reading >= 0:
+ 	        fill_obj.red_litre -= (attendance.end_reading - attendance.start_reading)
+	    if fill_obj.green_litre >= 0 and attendance.end_reading_green >= 0 and attendance.start_reading_green >= 0:
+	        fill_obj.green_litre -= (attendance.end_reading_green - attendance.start_reading_green)
+	    if fill_obj.diesel_litre >= 0 and attendance.end_reading_diesel >= 0 and attendance.start_reading_diesel >= 0:
+	        fill_obj.diesel_litre -= (attendance.end_reading_diesel - attendance.start_reading_diesel)
+	    fill_obj.save()
+        return HttpResponseRedirect(reverse('stock_balance'))
 
 class AttendenceClose(UpdateView):
     model = AttendanceRecord
@@ -162,21 +175,32 @@ class PetroAdminListView(TemplateView):
 	bunk_id = self.kwargs['pk']
 	if bunk_id:
 	    cur_bunk = PetroBunk.objects.get(id=bunk_id)
-	recs = AttendanceRecord.objects.filter(petro_bunk_id=bunk_id)
+	recs = AttendanceRecord.objects.filter(petro_bunk_id=bunk_id,date=date.today())
+	rate = FuelRate.objects.all()[0]
         context = super(PetroAdminListView, self).get_context_data(**kwargs)
 	context['bunk'] = cur_bunk.name
+	context['all_total'] = 0
 	if recs:
 	    for r in recs:
-     	        if r.machine.fuel == "red":
+     	        if r.start_reading or r.end_reading:
  		    context['red_start'] = r.start_reading
 		    context['red_end'] = r.end_reading
-		    context['red_total'] = r.collection
 		    context['red_diff'] = r.end_reading - r.start_reading
-	        if r.machine.fuel == "green":
-		    context['green_start'] = r.start_reading
-		    context['green_end'] = r.end_reading
-		    context['green_total'] = r.collection
-		    context['green_diff'] = r.end_reading - r.start_reading
+		    context['red_total'] = rate.red_rate * (r.end_reading - r.start_reading)
+		    context['all_total'] += context['red_total'] 
+		if r.start_reading_green or r.end_reading_green:
+		    context['green_start'] = r.start_reading_green
+		    context['green_end'] = r.end_reading_green
+		    context['green_diff'] = r.end_reading_green - r.start_reading_green
+		    context['green_total'] = rate.green_rate * (r.end_reading_green - r.start_reading_green)
+		    context['all_total'] += context['green_total'] 
+		if r.start_reading_diesel or r.end_reading_diesel:
+		    context['diesel_start'] = r.start_reading_diesel
+		    context['diesel_end'] = r.end_reading_diesel
+		    context['diesel_diff'] = r.end_reading_diesel - r.start_reading_diesel
+		    context['diesel_total'] = rate.diesel_rate * (r.end_reading_diesel - r.start_reading_diesel)
+		    context['all_total'] += context['diesel_total'] 
+		context['collection'] = r.collection
         return self.render_to_response(context)
 
     
@@ -198,7 +222,7 @@ class PetroUpdateView(UpdateView):
     template_name = "petroadmin/petro-fill.html"
 
     def get(self, request, *args, **kwargs):
-        self.object = FuelRecords.objects.get(id=self.kwargs['pk'])
+        self.object = FuelFillRecords.objects.get(id=self.kwargs['pk'])
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         context = self.get_context_data(object=self.object, form=form)
@@ -207,8 +231,9 @@ class PetroUpdateView(UpdateView):
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.added_time = timezone.now()
+	obj.date = timezone.now()
         obj.save()
-        return HttpResponseRedirect(reverse('petroadmin-list'))
+        return HttpResponseRedirect(reverse('petro-fill-list'))
 
 class EmployeesListView(ListView):
     model = User
@@ -262,7 +287,6 @@ class StockView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(StockView, self).get_context_data(**kwargs)
         context['objects_list'] = FuelFillRecords.objects.all()
-	print context['objects_list'], "context['objects_list']context['objects_list']"
         return context
 
 class PetroFillListView(ListView):
