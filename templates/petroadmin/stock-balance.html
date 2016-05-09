@@ -1,50 +1,76 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+    .stock-loader{
+        width:100%;
+        height:173px;
+        color:red;
+        background-color: #eee
+    }
+
+</style>
 <div id="page-wrapper">
-
-            <div class="container-fluid">
-
-                <!-- Page Heading -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Dashboard <small>Statistics Overview</small>
-                        </h1>
-                        <ol class="breadcrumb">
-                            <li class="active">
-                                <i class="fa fa-dashboard"></i> Dashboard
-                            </li>
-                        </ol>
+    <div class="container-fluid">
+    <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Stock Balance 
+                </h1>
+                <ol class="breadcrumb">
+                    <li class="active">
+                    <i class="fa fa-dashboard"></i> Dashboard
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row ""-->
+        <div class="row">
+            <div class="col-md-12">
+            {% for objects in objects_list %}
+            <div class="col-md-4">
+                
+                <div class="stock-loader">
+                    <div id="stock-head" style="text-align: center;">
+                        <h4>{{objects.bunk}}</h4>
+                    </div>
+                    <div id="stock-content" style="text-align: center; padding:30px">
+                        <div class="row" style="padding: 10px">
+                            <div style="float: left">Red</div>
+                            <div style="float: right;">{{objects.red_litre}}</div>
+                        </div>
+                        <div class="row" style="padding: 10px">
+                            <div style="float: left">Green</div>
+                            <div style="float: right;">{{objects.green_litre}}</div>
+                        </div>
+                        <div class="row" style="padding: 10px">
+                            <div style="float: left">Diesel</div>
+                            <div style="float: right;">{{objects.diesel_litre}}</div>
+                        </div>
                     </div>
                 </div>
-                <!-- /.row -->
-                <div class="row">
-                    <table class=" table table-bordered">
-                    <th></th>
-                    <th>Red</th>
-                    <th>Green</th>
-                    <th>Diesel</th>
-                    {% for objects in objects_list %}
-                    <tr>
-                        
-                            <td>{{objects.bunk}}</td>
-                            <td>{{objects.red_litre}}</td>
-                            <td>{{objects.green_litre}}</td>
-			    <td>{{objects.diesel_litre}}</td>
-			    {% if objects.description %}
-                            <td>{{objects.description}}</td>
-			    {% endif %}
-			    {% if objects.veh_num %}
-                            <td>{{objects.veh_num}}</td>
-                            {% endif %}
-                    <td><a href="{% url 'petroadmin-list' objects.id %}">click</a> </td>
-                    </tr>
-                    {% endfor %}
-
-                    </table>
-                </div>
-                </div>
-            
+                
+            </div>
+                {% endfor %}
+            </div>
 
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    </div>
+</div>
 {% endblock %}
