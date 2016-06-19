@@ -13,7 +13,7 @@ class EmployeeEntryForm(ModelForm):
 class AttendanceRecordForm(ModelForm):
 	class Meta:
 		model = AttendanceRecord
-		fields = ('machine','start_reading')
+		fields = ('machine','start_reading_red')
 	def __init__(self, *args, **kwargs):
 		super(AttendanceRecordForm, self).__init__(*args, **kwargs)
 		self.fields['machine'].widget.attrs.update({'class':'form-control'})
@@ -21,21 +21,28 @@ class AttendanceRecordForm(ModelForm):
 
 class AttendanceEntryForm(ModelForm):
 	added_date = forms.DateTimeField(widget=DateTimeWidget(usel10n=True, bootstrap_version=3)) 
-	collection = forms.DecimalField(required=True) 
+	collection = forms.DecimalField(required=True)
+	
 
 	class Meta:
 		model = AttendanceRecord
-		exclude = ('status','date','checkin_time','checkout_time')
+		exclude = ('status','date')
 	def __init__(self, *args, **kwargs):
 		super(AttendanceEntryForm, self).__init__(*args, **kwargs)
 		for field_name, field in self.fields.items():
 		    field.widget.attrs['class'] = 'form-control'
-		self.fields['user'].queryset = User.objects.exclude(is_superuser=True)
+		#self.fields['user'].queryset = Employees.objects.exclude(is_superuser=True)
+		self.fields['start_reading_red'].label = "Start Reading Red"
+		self.fields['end_reading_red'].label = "End Reading Red" 
+		self.fields['start_reading_green'].label = "Start Reading Green"
+		self.fields['end_reading_green'].label = "End Reading Green" 
+		self.fields['start_reading_diesel'].label = "Start Reading Diesel"
+		self.fields['end_reading_diesel'].label = "End Reading Diesel" 
 
 class AttendanceRecordCloseForm(ModelForm):
 	class Meta:
 		model = AttendanceRecord
-		fields = ('end_reading','collection')
+		fields = ('end_reading_red','collection')
 	def __init__(self, *args, **kwargs):
 		super(AttendanceRecordCloseForm, self).__init__(*args, **kwargs)
 		self.fields['end_reading'].widget.attrs.update({'class':'form-control'})
@@ -91,4 +98,16 @@ class MyBunkForm(forms.Form):
 		super(MyBunkForm, self).__init__(*args, **kwargs)
 		self.fields['bunk'].widget.attrs.update({'class':'form-control'})
 		self.fields['bunk'].label="Select Bunk"
+
+class EmployeeCreateForm(ModelForm):
+	
+	class Meta:
+		model = Employees
+		exclude = ('added_date',)
+
+	def __init__(self, *args, **kwargs):
+		super(EmployeeCreateForm, self).__init__(*args, **kwargs)
+		for field_name, field in self.fields.items():
+		    field.widget.attrs['class'] = 'form-control'
+
 

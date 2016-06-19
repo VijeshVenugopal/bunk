@@ -13,6 +13,17 @@ class PetroBunk(models.Model):
     def __unicode__(self):
         return self.name
 
+class Employees(models.Model):
+    bunk = models.ForeignKey(PetroBunk)
+    name = models.CharField(max_length=50,null=True,blank=True)
+    phone_number = models.CharField(max_length=50,null=True,blank=True)
+    address = models.CharField(max_length=200,null=True,blank=True)
+    added_date = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Machine(models.Model):
     """
     Model for machines.
@@ -26,7 +37,7 @@ class Machine(models.Model):
     fuel = models.CharField(max_length=5, choices=CHOICES)
     class Meta:
         verbose_name = "Machine"
-	verbose_name_plural = "Machines"
+        verbose_name_plural = "Machines"
 
     def __unicode__(self):
         return self.name
@@ -82,19 +93,17 @@ class AttendanceRecord(models.Model):
 	)
     shift_type = models.CharField(max_length=10, choices=CHOICES)
     petro_bunk = models.ForeignKey(PetroBunk, related_name="petrobunks")
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(Employees)
     status = models.BooleanField(default=False)
     date = models.DateField(null=True,blank=True,default=datetime.date.today)
-    checkin_time = models.DateTimeField(null=True,blank=True)
-    checkout_time = models.DateTimeField(null=True,blank=True)
     machine = models.ForeignKey(Machine,null=True)
-    start_reading = models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=True)
-    end_reading = models.DecimalField(max_digits=5, decimal_places=2,null=True,blank=True)
-    start_reading_green = models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=True)
-    end_reading_green = models.DecimalField(max_digits=5, decimal_places=2,null=True,blank=True)
-    start_reading_diesel = models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=True)
-    end_reading_diesel = models.DecimalField(max_digits=5, decimal_places=2,null=True,blank=True)
-    collection = models.DecimalField(max_digits=9, decimal_places=2,null=True,blank=True)
+    start_reading_red = models.DecimalField(max_digits=20, decimal_places=5,null=True,blank=True)
+    end_reading_red = models.DecimalField(max_digits=20, decimal_places=5,null=True,blank=True)
+    start_reading_green = models.DecimalField(max_digits=20, decimal_places=5,null=True,blank=True)
+    end_reading_green = models.DecimalField(max_digits=20, decimal_places=5,null=True,blank=True)
+    start_reading_diesel = models.DecimalField(max_digits=20, decimal_places=5,null=True,blank=True)
+    end_reading_diesel = models.DecimalField(max_digits=20, decimal_places=5,null=True,blank=True)
+    collection = models.DecimalField(max_digits=9, decimal_places=5,null=True,blank=True)
 
     def __unicode__(self):
         return "%s-%s" % (str(self.user), self.date)

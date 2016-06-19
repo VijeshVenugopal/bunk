@@ -91,8 +91,6 @@ class EmployeeEntryView(CreateView):
     def form_valid(self, form):
         attendance = form.save(commit=False)
         attendance.status = True
-        attendance.checkin_time = timezone.now()
-        attendance.checkout_time = timezone.now()
         attendance.save()
         #mach = Machine.objects.get(petro_bunk=attendance.petro_bunk.id, name=attendance.machine.name)
         #dif = attendance.end_reading-attendance.start_reading
@@ -236,12 +234,12 @@ class PetroUpdateView(UpdateView):
         return HttpResponseRedirect(reverse('petro-fill-list'))
 
 class EmployeesListView(ListView):
-    model = User
+    model = Employees
     template_name = "admin/employees_list.html"
 
     def get_context_data(self, **kwargs):
         context = super(EmployeesListView, self).get_context_data(**kwargs)
-        context['employees'] = User.objects.all().exclude(is_superuser=True)
+        context['employees'] = Employees.objects.all()
         return context
 
 class PetroRedListView(ListView):
@@ -296,3 +294,13 @@ class PetroFillListView(ListView):
         context = super(PetroFillListView, self).get_context_data(**kwargs)
         context['objects_list'] = FuelFillRecords.objects.all()
         return context
+
+class EmployeeCreate(CreateView):
+    model = Employees
+    form_class = EmployeeCreateForm
+    template_name = "petroadmin/employee-create.html"
+
+    def form_valid(self,form):
+        employee = form.save(commit=False)
+        employee.save()
+        return HttpResponseRedirect(reverse("employee_list"))
