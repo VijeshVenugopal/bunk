@@ -89,6 +89,7 @@ class EmployeeEntryView(CreateView):
     template_name = "petroadmin/employee-entry.html"
 
     def form_valid(self, form):
+        
         attendance = form.save(commit=False)
         attendance.status = True
         attendance.save()
@@ -106,8 +107,8 @@ class EmployeeEntryView(CreateView):
 	except:
 	    fill_obj = FuelFillRecords.objects.filter(bunk=attendance.petro_bunk.id)[0]
 	if fill_obj:
-	    if fill_obj.red_litre >= 0 and attendance.end_reading >= 0 and attendance.start_reading >= 0:
- 	        fill_obj.red_litre -= (attendance.end_reading - attendance.start_reading)
+	    if fill_obj.red_litre >= 0 and attendance.end_reading_red >= 0 and attendance.start_reading_red >= 0:
+ 	        fill_obj.red_litre -= (attendance.end_reading_red - attendance.start_reading_red)
 	    if fill_obj.green_litre >= 0 and attendance.end_reading_green >= 0 and attendance.start_reading_green >= 0:
 	        fill_obj.green_litre -= (attendance.end_reading_green - attendance.start_reading_green)
 	    if fill_obj.diesel_litre >= 0 and attendance.end_reading_diesel >= 0 and attendance.start_reading_diesel >= 0:
