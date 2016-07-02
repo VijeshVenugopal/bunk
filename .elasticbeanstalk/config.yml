@@ -1,0 +1,13 @@
+branch-defaults:
+  bunkappaws:
+    environment: bunk-dev
+  master:
+    environment: bunkapp
+    group_suffix: null
+global:
+  application_name: bunk
+  default_ec2_keyname: bunkapp
+  default_platform: Python 2.7
+  default_region: us-east-1
+  profile: eb-cli
+  sc: git
