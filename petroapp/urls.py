@@ -3,7 +3,6 @@ from petroapp.views import *
 
 urlpatterns = [
     url(r'^entries/$', EntryListView.as_view(), name="entry-list"),
-    url(r'^attendance/$', AttendanceCreateView.as_view(), name="attendance_create"),
     url(r'attendance/(?P<pk>[0-9]+)/$', AttendenceClose.as_view(), name='attendence-close'),
     url(r'^add-details/$', EmployeeEntryView.as_view(), name="employee-entry"),
     url(r'^petro-details/(?P<pk>[0-9]+)/$', PetroAdminListView.as_view(), name="petroadmin-list"),

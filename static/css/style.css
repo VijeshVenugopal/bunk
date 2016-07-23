@@ -1,0 +1,24 @@
+
+.fuel_container{
+	margin-top: 30px;
+}
+.box_container{
+	height: 180px;
+	padding: 10px;
+	box-shadow:1px 5px 19px 1px #888888
+}
+.inline_padding{
+	padding-top: 10px;
+}
+#red_cont{
+	border:1px solid #e60000;
+}
+#green_cont{
+	border:1px solid #00b300;
+}
+#diesel_cont{
+	border:1px solid #0000cc;
+}
+.date_field{
+	margin-top: 30px
+}

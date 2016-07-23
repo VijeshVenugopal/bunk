@@ -1,39 +1,125 @@
 {% extends 'base.html' %}
 {% block content %}
 <div id="page-wrapper">
-
-            <div class="container-fluid">
-
-                <!-- Page Heading -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Dashboard <small>Statistics Overview</small>
-                        </h1>
-                        <ol class="breadcrumb">
-                            <li class="active">
-                                <i class="fa fa-dashboard"></i> Dashboard
-                            </li>
-                        </ol>
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Sales Record
+                </h1>
+                <ol class="breadcrumb">
+                    <li class="active">
+                        <i class="fa fa-dashboard"></i> Record Your sales Entry Here
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <form method="post" action=".">{% csrf_token %}
+            <div class="col-md-12">
+                <div class="col-md-5">SHIFT TYPE : {{form.shift_type}}</div>
+                <div class="col-md-7">DATE : {{form.date}}</div>
+            </div>
+            
+            <div class="col-md-12">
+                <div class="fuel_container">
+                    <div class="col-md-4">
+                        <div class="box_container" id="red_cont">
+                            <h4 style="text-align:center">RED ENTRY</h4>
+                            <div class="row">
+                                <div class="col-md-6">Start Reading Red : </div>
+                                <div class="col-md-6">{{form.start_reading_red}}</div>
+                            </div>
+                            <div class="row" style="margin-top:10px">
+                                <div class="col-md-6">End Reading Red : </div>
+                                <div class="col-md-6">{{form.end_reading_red}}</div>
+                            </div>
+                            <div class="row" style="margin-top:10px">
+                                <div class="col-md-6">Sales Collection : </div>
+                                <div class="col-md-6">{{form.sales_collection_red}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="box_container" id="green_cont">
+                            <h4 style="text-align:center">GREEN ENTRY</h4>
+                            <div class="row">
+                                <div class="col-md-6">Start Reading : </div>
+                                <div class="col-md-6">{{form.start_reading_green}}</div>
+                            </div>
+                            <div class="row" style="margin-top:10px">
+                                <div class="col-md-6">End Reading : </div>
+                                <div class="col-md-6">{{form.start_reading_green}}</div>
+                            </div>
+                            <div class="row" style="margin-top:10px">
+                                <div class="col-md-6">Sales Collection : </div>
+                                <div class="col-md-6">{{form.sales_collection_green}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="box_container" id="diesel_cont">
+                            <h4 style="text-align:center">DIESEL ENTRY</h4>
+                            <div class="row">
+                                <div class="col-md-6">Start Reading : </div>
+                                <div class="col-md-6">{{form.start_reading_diesel}}</div>
+                            </div>
+                            <div class="row" style="margin-top:10px">
+                                <div class="col-md-6">End Reading : </div>
+                                <div class="col-md-6">{{form.end_reading_diesel}}</div>
+                            </div>
+                            <div class="row" style="margin-top:10px">
+                                <div class="col-md-6">Sales Collection : </div>
+                                <div class="col-md-6">{{form.sales_collection_diesel}}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- /.row -->
-
-                <form method="post" action=".">{% csrf_token %}
-                 <div class="row">
-                 <div class="col-md-12">
-                 {% for field in form %}
-                 
-                     <div class="col-md-6"  style="padding:10px">{{field.label}}{{field}}{{field.errors}}</div>
-                 
-                 {% endfor %}
-                 </div>
-                 </div>
-                 
-                 <input type="submit" value="Submit" class="btn btn-success submit">
-                </form>
             </div>
-            <!-- /.container-fluid -->
+            <div class="col-md-12">
+                <div class="date_field">
+                    <div class="col-md-4">
+                        BUNK :{{form.petro_bunk}}
+                    </div>
+                </div>
+                <div class="date_field">
+                    <div class="col-md-4">
+                         ACTUAL AMOUNT:{{form.actual_amount}}
+                    </div>
+                </div>
+                <div class="date_field">
+                    <div class="col-md-4">
+                        PHYSICAL AMOUNT :{{form.collection}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:30px">
+                <div class=col-md-9></div>
+                <div class="col-md-3">
+                    <input type="submit" value="Submit" class="btn btn-success submit">
+                </div>
+        </form>
+        
+        
+                
+        <!-- /.row -->
 
-        </div>
+        
+        <!-- <form method="post" action=".">{% csrf_token %}
+         <div class="row">
+         <div class="col-md-12">
+         {% for field in form %}
+         
+             <div class="col-md-6"  style="padding:10px">{{field.label}}{{field}}{{field.errors}}</div>
+         
+         {% endfor %}
+         </div>
+         </div>
+         
+         <input type="submit" value="Submit" class="btn btn-success submit">
+        </form> -->
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
 {% endblock %}

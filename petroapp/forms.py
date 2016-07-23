@@ -10,23 +10,15 @@ class EmployeeEntryForm(ModelForm):
         model = DailyInputs
         exclude = ('user', 'date')
 
-class AttendanceRecordForm(ModelForm):
-	class Meta:
-		model = AttendanceRecord
-		fields = ('machine','start_reading_red')
-	def __init__(self, *args, **kwargs):
-		super(AttendanceRecordForm, self).__init__(*args, **kwargs)
-		self.fields['machine'].widget.attrs.update({'class':'form-control'})
-		self.fields['start_reading'].widget.attrs.update({'class':'form-control'})
+
 
 class AttendanceEntryForm(ModelForm):
-	added_date = forms.DateTimeField(widget=DateTimeWidget(usel10n=True, bootstrap_version=3)) 
+	date = forms.DateField(widget=DateWidget(usel10n=True, bootstrap_version=3)) 
 	collection = forms.DecimalField(required=True)
-	
 
 	class Meta:
 		model = AttendanceRecord
-		exclude = ('status','date')
+		exclude = ()
 	def __init__(self, *args, **kwargs):
 		super(AttendanceEntryForm, self).__init__(*args, **kwargs)
 		for field_name, field in self.fields.items():

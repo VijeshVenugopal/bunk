@@ -69,20 +69,6 @@ class UserEntryView(View):
         return context
 """
 
-class AttendanceCreateView(CreateView):
-    model = AttendanceRecord
-    form_class = AttendanceRecordForm
-    template_name = "employee/employee_attendance.html"
-
-    def form_valid(self,form):
-        attendance = form.save(commit=False)
-        attendance.user = self.request.user
-        attendance.date = date.today()
-        attendance.status = True
-        attendance.checkin_time = timezone.now()
-        attendance.save()
-        return HttpResponseRedirect(reverse("entry-list"))
-
 class EmployeeEntryView(CreateView):
     model = AttendanceRecord
     form_class = AttendanceEntryForm
