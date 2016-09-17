@@ -87,18 +87,19 @@ class EmployeeEntryView(CreateView):
             #fuel_obj = FuelRecords.objects.filter(fu_type=mach.fuel)[0]
             #fuel_obj.litre -= dif
             #fuel_obj.save()
-	try:
-	    fill_obj = FuelFillRecords.objects.get(bunk=attendance.petro_bunk.id)
-	except:
-	    fill_obj = FuelFillRecords.objects.filter(bunk=attendance.petro_bunk.id)[0]
-	if fill_obj:
-	    if fill_obj.red_litre >= 0 and attendance.end_reading_red >= 0 and attendance.start_reading_red >= 0:
- 	        fill_obj.red_litre -= (attendance.end_reading_red - attendance.start_reading_red)
-	    if fill_obj.green_litre >= 0 and attendance.end_reading_green >= 0 and attendance.start_reading_green >= 0:
-	        fill_obj.green_litre -= (attendance.end_reading_green - attendance.start_reading_green)
-	    if fill_obj.diesel_litre >= 0 and attendance.end_reading_diesel >= 0 and attendance.start_reading_diesel >= 0:
-	        fill_obj.diesel_litre -= (attendance.end_reading_diesel - attendance.start_reading_diesel)
-	    fill_obj.save()
+        
+        try:
+    	    fill_obj = FuelFillRecords.objects.get(bunk=attendance.petro_bunk.id)
+    	except:
+    	    fill_obj = FuelFillRecords.objects.filter(bunk=attendance.petro_bunk.id)[0]
+    	if fill_obj:
+    	    if fill_obj.red_litre >= 0 and attendance.end_reading_red >= 0 and attendance.start_reading_red >= 0:
+     	        fill_obj.red_litre -= (attendance.end_reading_red - attendance.start_reading_red)
+    	    if fill_obj.green_litre >= 0 and attendance.end_reading_green >= 0 and attendance.start_reading_green >= 0:
+    	        fill_obj.green_litre -= (attendance.end_reading_green - attendance.start_reading_green)
+    	    if fill_obj.diesel_litre >= 0 and attendance.end_reading_diesel >= 0 and attendance.start_reading_diesel >= 0:
+    	        fill_obj.diesel_litre -= (attendance.end_reading_diesel - attendance.start_reading_diesel)
+    	    fill_obj.save()
         return HttpResponseRedirect(reverse('stock_balance'))
 
 class AttendenceClose(UpdateView):

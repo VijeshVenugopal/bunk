@@ -92,7 +92,8 @@ class AttendanceRecord(models.Model):
 	('s2','SHIFT2')
 	)
     shift_type = models.CharField(max_length=10, choices=CHOICES)
-    petro_bunk = models.ForeignKey(PetroBunk, related_name="petrobunks")
+    petro_bunk = models.ForeignKey(PetroBunk, related_name="petrobunks",null=True,blank=True)
+    machine = models.ForeignKey(Machine, related_name="machines_input")
     status = models.BooleanField(default=False)
     date = models.DateField(null=True,blank=True,default=datetime.date.today)
     start_reading_red = models.DecimalField(max_digits=20, decimal_places=5,null=True,blank=True)
@@ -108,7 +109,7 @@ class AttendanceRecord(models.Model):
     collection = models.DecimalField(max_digits=9, decimal_places=5,null=True,blank=True)
 
     def __unicode__(self):
-        return "%s-%s" % (str(self.user), self.date)
+        return str(self.date)
 
 class FuelRecords(models.Model):
     """
